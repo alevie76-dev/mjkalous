@@ -27,9 +27,11 @@ import { BOOK } from '../consts';
                 class={`btn ${i === 0 ? 'btn-primary' : 'btn-secondary'}`}
                 data-track="book_click"
                 data-track-label={r.name}
+                target="_blank"
                 rel="noopener"
               >
                 {r.name}
+                <span class="sr-only"> (opens in a new tab)</span>
               </a>
             </li>
           ))

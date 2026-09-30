@@ -11,6 +11,7 @@
     "cms": "npx decap-server"
   },
   "dependencies": {
+    "@astrojs/markdown-satteri": "^0.4.2",
     "@astrojs/react": "^7.0.0",
     "@astrojs/rss": "^4.0.19",
     "@astrojs/sitemap": "^3.7.4",

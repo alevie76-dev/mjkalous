@@ -88,7 +88,7 @@ const offers = [
       <div class="rounded-2xl border border-line bg-white p-8">
         <p class="font-serif text-3xl">Read the book</p>
         <p class="mt-2 text-muted">{BOOK.description}</p>
-        <a href={BOOK.primaryUrl} class="btn btn-primary mt-6" data-track="book_click" data-track-label="about">Get {BOOK.title}</a>
+        <a href={BOOK.primaryUrl} class="btn btn-primary mt-6" data-track="book_click" data-track-label="about" target="_blank" rel="noopener">Get {BOOK.title}<span class="sr-only"> (opens in a new tab)</span></a>
       </div>
       <div class="rounded-2xl border border-line bg-white p-8">
         <p class="font-serif text-3xl">Get in touch</p>

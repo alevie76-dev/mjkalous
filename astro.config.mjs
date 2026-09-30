@@ -3,11 +3,16 @@ import { defineConfig, envField } from 'astro/config';
 import react from '@astrojs/react';
 import sitemap from '@astrojs/sitemap';
 import tailwindcss from '@tailwindcss/vite';
+import { satteri } from '@astrojs/markdown-satteri';
+import { externalLinks } from './src/lib/external-links-plugin.mjs';
 
 export default defineConfig({
   site: 'https://mjkalous.com',
   output: 'static',
   trailingSlash: 'ignore',
+  markdown: {
+    processor: satteri({ hastPlugins: [externalLinks] }),
+  },
   integrations: [
     react(),
     sitemap({ filter: (page) => !page.includes('/admin') }),

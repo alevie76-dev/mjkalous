@@ -55,6 +55,8 @@ Tips: the **Excerpt** is the short summary shown on post cards and in Google res
 
 **Editing locally, without logging in to GitHub:** run `npm run dev` and `npm run cms` in two terminals, then open http://localhost:4321/admin/. Changes are written to files on disk.
 
+Links to other sites in a post open in a new tab automatically (`src/lib/external-links-plugin.mjs`). In page templates, give external links `target="_blank" rel="noopener"` and a `<span class="sr-only"> (opens in a new tab)</span>`.
+
 To add a category, add it to both `CATEGORIES` in `src/consts.ts` and the `categories` options in `public/admin/config.yml`.
 
 ## Analytics & privacy

@@ -23,12 +23,13 @@ const year = new Date().getFullYear();
             <li>
               <a
                 href={s.href}
+                target="_blank"
                 rel="noopener me"
                 class="inline-flex size-11 items-center justify-center rounded-full bg-white/10 text-white hover:bg-white/20"
                 data-track="social_click"
                 data-track-label={s.name}
               >
-                <span class="sr-only">{s.name}</span>
+                <span class="sr-only">{s.name} (opens in a new tab)</span>
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                   <path d={icons[s.name]} />
                 </svg>

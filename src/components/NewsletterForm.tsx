@@ -1,6 +1,7 @@
 import { useId, useState, type FormEvent } from 'react';
 import { KIT_FORM_ID } from 'astro:env/client';
 import { track } from '../lib/analytics';
+import { markSubscribed } from '../lib/popup';
 
 type Status = 'idle' | 'submitting' | 'success' | 'error';
 
@@ -38,6 +39,7 @@ export default function NewsletterForm({ tone = 'light', placement }: Props) {
       setStatus('success');
       setMessage('Thank you! Please check your inbox to confirm your subscription.');
       track('sign_up', { method: 'newsletter', placement });
+      markSubscribed();
       form.reset();
     } catch (err) {
       if (err instanceof TypeError) {

@@ -1,0 +1,109 @@
+---
+// Newsletter + book popup. Opens once after a delay; remembers dismissals and signups.
+import { Image } from 'astro:assets';
+import NewsletterForm from './NewsletterForm.tsx';
+import bookCover from '../assets/book-cover.webp';
+import { BOOK } from '../consts';
+
+// Pages where interrupting the visitor would get in the way.
+const SKIP = ['/contact', '/privacy'];
+const path = Astro.url.pathname.replace(/\/$/, '') || '/';
+const enabled = !SKIP.includes(path);
+---
+
+{
+  enabled && (
+    <dialog
+      id="signup-popup"
+      aria-labelledby="popup-heading"
+      class="popup m-0 mt-auto w-full max-w-none overflow-y-auto rounded-t-2xl bg-paper p-0 text-ink shadow-2xl backdrop:bg-ink/50 sm:m-auto sm:max-w-2xl sm:rounded-2xl"
+    >
+      <div class="relative grid sm:grid-cols-[180px_1fr]">
+        <button
+          type="button"
+          data-popup-close
+          class="absolute top-2 right-2 z-10 inline-flex size-11 items-center justify-center rounded-full text-muted hover:bg-sand hover:text-ink"
+        >
+          <span class="sr-only">Close</span>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <path d="M6 6l12 12M18 6L6 18" stroke-linecap="round" />
+          </svg>
+        </button>
+
+        <div class="hidden items-center justify-center bg-gradient-to-b from-sky to-sand p-6 sm:flex">
+          <Image src={bookCover} alt="" widths={[160, 320]} sizes="140px" class="w-[140px] rotate-2 rounded-sm shadow-lg" loading="lazy" />
+        </div>
+
+        <div class="p-6 pr-14 sm:p-8 sm:pr-12">
+          <p class="eyebrow">Free newsletter</p>
+          <h2 id="popup-heading" class="mt-2 text-3xl font-medium">Join the Wisdom from the Wreckage Community</h2>
+          <p class="mt-2 text-muted">
+            Get frameworks for healing, stories of hope, and practical tools delivered to your inbox.
+          </p>
+
+          <div class="popup-form mt-5">
+            <NewsletterForm client:idle placement="popup" />
+          </div>
+
+          <div class="mt-5 flex flex-wrap items-center gap-x-4 gap-y-2 border-t border-line pt-5">
+            <a href={BOOK.primaryUrl} class="btn btn-primary" data-track="book_click" data-track-label="popup">
+              Get the Book
+            </a>
+            <button type="button" data-popup-close class="min-h-11 text-sm font-medium text-muted underline underline-offset-4 hover:text-ink">
+              No thanks
+            </button>
+          </div>
+        </div>
+      </div>
+    </dialog>
+  )
+}
+
+<style>
+  /* Stack the form fields inside the narrow popup regardless of viewport width. */
+  .popup-form :global(form > div) {
+    grid-template-columns: 1fr;
+  }
+  .popup {
+    max-height: 90dvh;
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .popup[open] {
+      animation: popup-in 0.3s ease-out;
+    }
+  }
+  @keyframes popup-in {
+    from {
+      opacity: 0;
+      transform: translateY(24px);
+    }
+  }
+</style>
+
+<script>
+  import { POPUP_DELAY_MS, popupSuppressed, dismissPopup } from '../lib/popup';
+  import { track } from '../lib/analytics';
+
+  const dialog = document.getElementById('signup-popup') as HTMLDialogElement | null;
+
+  // Add ?popup to any URL to open it right away (for reviewing the design).
+  const preview = new URLSearchParams(location.search).has('popup');
+
+  if (dialog && (preview || !popupSuppressed())) {
+    setTimeout(() => {
+      // Don't interrupt someone typing in a form, or stack on top of another open dialog.
+      const active = document.activeElement;
+      if (active?.matches('input, textarea, select') || document.querySelector('dialog[open]')) return;
+      if (!preview && popupSuppressed()) return;
+      dialog.showModal();
+      track('popup_view');
+    }, preview ? 0 : POPUP_DELAY_MS);
+
+    dialog.querySelectorAll('[data-popup-close]').forEach((el) => el.addEventListener('click', () => dialog.close()));
+    // Click on the backdrop (outside the panel) closes it.
+    dialog.addEventListener('click', (e) => {
+      if (e.target === dialog) dialog.close();
+    });
+    dialog.addEventListener('close', dismissPopup);
+  }
+</script>

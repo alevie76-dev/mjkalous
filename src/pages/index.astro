@@ -1,0 +1,51 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/Hero.astro';
+import Newsletter from '../components/Newsletter.astro';
+import About from '../components/About.astro';
+import BookSection from '../components/BookSection.astro';
+import BlogCard from '../components/BlogCard.astro';
+import { getPosts, categoriesWithCounts } from '../lib/posts';
+
+const posts = await getPosts();
+const latest = posts.slice(0, 3);
+const categories = categoriesWithCounts(posts);
+---
+
+<BaseLayout>
+  <Hero />
+  <Newsletter placement="home-hero" />
+  <About />
+
+  {
+    latest.length > 0 && (
+      <section class="border-t border-line py-16 sm:py-24" aria-labelledby="latest-heading">
+        <div class="container-site">
+          <div class="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+            <div>
+              <p class="eyebrow">From the Blog</p>
+              <h2 id="latest-heading" class="mt-3 text-4xl font-medium sm:text-5xl">Latest Writing</h2>
+            </div>
+            <ul class="flex flex-wrap gap-2" aria-label="Browse by category">
+              {categories.map((c) => (
+                <li>
+                  <a href={`/blog/category/${c.slug}`} class="chip">{c.name}</a>
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {latest.map((post) => (
+              <BlogCard post={post} />
+            ))}
+          </div>
+          <div class="mt-10 text-center">
+            <a href="/blog" class="btn btn-secondary">Read All Posts</a>
+          </div>
+        </div>
+      </section>
+    )
+  }
+
+  <BookSection />
+</BaseLayout>

@@ -1,0 +1,86 @@
+@import 'tailwindcss';
+@plugin '@tailwindcss/typography';
+
+/* Palette drawn from the Wisdom From the Wreckage cover: sky, sagebrush, the red-dirt path, cream paper. */
+@theme {
+  --color-paper: #fbf7f0;
+  --color-sand: #f2e9db;
+  --color-sky: #dce8ef;
+  --color-ink: #2a2522;
+  --color-muted: #5b524a;
+  --color-line: #e2d6c3;
+  --color-sage: #4d6450;
+  --color-sage-dark: #3a4d3d;
+  --color-clay: #9a4a2c;
+  --color-clay-dark: #7c3a22;
+  --color-gold: #c9a96e;
+
+  --font-serif: 'EB Garamond Variable', Georgia, 'Times New Roman', serif;
+  --font-sans: 'Inter Variable', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
+  body {
+    @apply bg-paper font-sans text-ink antialiased;
+    font-size: 1.0625rem;
+    line-height: 1.7;
+  }
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply font-serif text-ink;
+    line-height: 1.15;
+    text-wrap: balance;
+  }
+  a {
+    @apply text-clay underline-offset-4;
+  }
+  :focus-visible {
+    outline: 3px solid var(--color-clay);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+}
+
+@layer components {
+  .container-site {
+    @apply mx-auto w-full max-w-[1200px] px-4 sm:px-6 lg:px-8;
+  }
+  .btn {
+    @apply inline-flex min-h-11 items-center justify-center gap-2 rounded-full px-6 py-2.5 text-base font-semibold no-underline transition-colors;
+  }
+  .btn-primary {
+    @apply bg-clay text-white hover:bg-clay-dark;
+  }
+  .btn-secondary {
+    @apply border-2 border-sage-dark text-sage-dark hover:bg-sage-dark hover:text-white;
+  }
+  .btn-light {
+    @apply border-2 border-white text-white hover:bg-white hover:text-sage-dark;
+  }
+  .eyebrow {
+    @apply text-sm font-semibold tracking-[0.14em] text-sage uppercase;
+  }
+  .chip {
+    @apply inline-flex min-h-11 items-center rounded-full border border-line bg-white/70 px-4 text-sm font-medium text-sage-dark no-underline hover:border-sage hover:bg-white;
+  }
+  .chip[aria-current='page'] {
+    @apply border-sage bg-sage text-white;
+  }
+  .field {
+    @apply block w-full min-h-11 rounded-lg border border-line bg-white px-4 py-2.5 text-base text-ink placeholder:text-muted/70 focus:border-sage focus:outline-none focus-visible:ring-2 focus-visible:ring-sage/40;
+  }
+  .label {
+    @apply mb-1.5 block text-sm font-semibold text-ink;
+  }
+}

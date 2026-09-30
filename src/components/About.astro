@@ -1,0 +1,27 @@
+---
+import { Image } from 'astro:assets';
+import portrait from '../assets/michael-kalous.png';
+---
+
+<section class="py-16 sm:py-24" aria-labelledby="about-heading">
+  <div class="container-site grid items-center gap-10 md:grid-cols-[0.9fr_1.1fr] lg:gap-16">
+    <Image
+      src={portrait}
+      alt="Michael J. Kalous kneeling beside his black dog near a Montana mountain stream"
+      widths={[360, 540, 720]}
+      sizes="(min-width: 768px) 45vw, 100vw"
+      class="mx-auto w-full max-w-md rounded-2xl object-cover shadow-lg"
+    />
+    <div>
+      <p class="eyebrow">About</p>
+      <h2 id="about-heading" class="mt-3 text-4xl font-medium sm:text-5xl">Who is Michael J. Kalous?</h2>
+      <p class="mt-6 text-lg">
+        Born on a cold Montana morning in a car, Michael survived abuse, abandonment, and neglect, and grew into a man who
+        cares deeply about others. A Licensed Clinical Professional Counselor, he has spent more than 25 years listening to
+        people's stories. He writes as an elder at the gate: not someone with all the answers, but a guide who has walked
+        the road and can point the way toward hope.
+      </p>
+      <a href="/about" class="btn btn-secondary mt-8">Read Full Story</a>
+    </div>
+  </div>
+</section>

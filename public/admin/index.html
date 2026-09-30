@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>Content Manager | Michael J. Kalous</title>
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  </head>
+  <body>
+    <script>
+      // Initialize manually so the OAuth base_url always matches the site the editor is opened on
+      // (mjkalous.com in production). Everything else lives in /admin/config.yml.
+      window.CMS_MANUAL_INIT = true;
+    </script>
+    <script src="https://unpkg.com/decap-cms@3.16.3/dist/decap-cms.js"></script>
+    <script>
+      var isLocal = ['localhost', '127.0.0.1'].indexOf(location.hostname) !== -1;
+      CMS.init({
+        config: {
+          // Locally, `npm run cms` (decap-server) edits files on disk without logging in to GitHub.
+          local_backend: isLocal,
+          backend: { base_url: location.origin },
+        },
+      });
+      CMS.registerPreviewStyle('/admin/preview.css');
+    </script>
+  </body>
+</html>

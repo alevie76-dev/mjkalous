@@ -1,0 +1,89 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { SITE } from '../consts';
+
+const updated = 'September 30, 2026';
+---
+
+<BaseLayout title="Privacy Policy" description={`How ${SITE.name}'s website collects and uses information.`}>
+  <section class="bg-gradient-to-b from-sky/60 to-paper">
+    <div class="container-site max-w-3xl py-14 sm:py-20">
+      <p class="eyebrow">Legal</p>
+      <h1 class="mt-3 text-5xl font-medium">Privacy Policy</h1>
+      <p class="mt-4 text-muted">Last updated {updated}</p>
+    </div>
+  </section>
+
+  <div class="container-site max-w-3xl pb-20">
+    <div class="prose prose-lg max-w-none prose-headings:font-serif prose-headings:font-medium prose-a:text-clay">
+      <p>
+        This policy explains what information mjkalous.com (“the site”) collects, why, and the choices you have. In
+        short: I collect only what's needed to send you the newsletter you ask for, answer your messages, and understand
+        which pages are helpful. I never sell your information.
+      </p>
+
+      <h2 id="newsletter">Newsletter (Kit)</h2>
+      <p>
+        When you subscribe, your first name and email address are sent to <a href="https://kit.com" rel="noopener">Kit</a>
+        (formerly ConvertKit), the service that delivers the newsletter. Kit stores this information on my behalf and
+        records basic engagement such as whether an email was opened. See
+        <a href="https://kit.com/privacy" rel="noopener">Kit's privacy policy</a>.
+      </p>
+      <p>
+        <strong>To unsubscribe</strong>, click the “Unsubscribe” link at the bottom of any newsletter email. You'll be
+        removed immediately. You can also email <a href={`mailto:${SITE.email}`}>{SITE.email}</a> and I'll remove you by
+        hand.
+      </p>
+
+      <h2 id="contact-form">Contact form</h2>
+      <p>
+        When you use the contact form, your name, email address, and message are delivered to my inbox through
+        <a href="https://resend.com" rel="noopener">Resend</a>, an email delivery service. They're used only to reply to you.
+        Please don't include sensitive health information; this form is not a secure channel for counseling and does not
+        create a counselor–client relationship.
+      </p>
+
+      <h2 id="analytics">Google Analytics 4</h2>
+      <p>
+        If you click “Accept” on the cookie banner, the site loads Google Analytics 4, which uses cookies to collect
+        information such as the pages you visit, how long you stay, your approximate location (city level), device and
+        browser type, and how you arrived at the site. I use this only in aggregate to learn which writing is helpful.
+        Google processes this data under its own <a href="https://policies.google.com/privacy" rel="noopener">privacy policy</a>.
+        You can also opt out across all sites with the
+        <a href="https://tools.google.com/dlpage/gaoptout" rel="noopener">Google Analytics opt-out add-on</a>.
+      </p>
+
+      <h2 id="meta-pixel">Meta Pixel</h2>
+      <p>
+        If you accept cookies, the site also loads the Meta (Facebook) Pixel. It records visits and actions such as
+        subscribing or clicking through to buy the book, so I can measure whether posts and ads on Facebook and Instagram
+        are reaching the right people. Meta may link this activity to your Facebook or Instagram account under its own
+        <a href="https://www.facebook.com/privacy/policy/" rel="noopener">privacy policy</a>. You can manage this in your
+        <a href="https://www.facebook.com/adpreferences" rel="noopener">Meta ad preferences</a>.
+      </p>
+
+      <h2 id="cookies">Your cookie choices</h2>
+      <p>
+        No analytics or advertising cookies are set unless you accept them. You can change your choice at any time:
+        <a href="#" data-consent-reset>open cookie preferences</a>. Clearing your browser's site data will also reset it.
+      </p>
+
+      <h2>Hosting</h2>
+      <p>
+        The site is hosted by <a href="https://vercel.com" rel="noopener">Vercel</a>, which keeps standard server logs
+        (such as IP address and browser type) for security and reliability.
+      </p>
+
+      <h2>Children</h2>
+      <p>The site is not directed to children under 13, and I don't knowingly collect their information.</p>
+
+      <h2>Changes</h2>
+      <p>If this policy changes, the new version will be posted here with an updated date.</p>
+
+      <h2>Contact</h2>
+      <p>
+        Questions about your information, or want it deleted? Email <a href={`mailto:${SITE.email}`}>{SITE.email}</a>.
+      </p>
+    </div>
+  </div>
+</BaseLayout>

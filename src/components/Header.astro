@@ -1,0 +1,77 @@
+---
+import { NAV, SITE, BOOK } from '../consts';
+
+const path = Astro.url.pathname.replace(/\/$/, '') || '/';
+const isActive = (href: string) => (href === '/' ? path === '/' : path === href || path.startsWith(`${href}/`));
+---
+
+<header class="sticky top-0 z-40 border-b border-line/70 bg-paper/90 backdrop-blur">
+  <div class="container-site flex h-16 items-center justify-between gap-4">
+    <a href="/" class="font-serif text-2xl font-medium text-ink no-underline">{SITE.name}</a>
+
+    <nav aria-label="Main" class="hidden md:block">
+      <ul class="flex items-center gap-1">
+        {
+          NAV.map((item) => (
+            <li>
+              <a
+                href={item.href}
+                aria-current={isActive(item.href) ? 'page' : undefined}
+                class="inline-flex min-h-11 items-center rounded-full px-4 font-medium text-ink no-underline hover:bg-sand aria-[current=page]:text-clay"
+              >
+                {item.label}
+              </a>
+            </li>
+          ))
+        }
+        <li class="ml-2">
+          <a href={BOOK.primaryUrl} class="btn btn-primary" data-track="book_click" data-track-label="header">Get the Book</a>
+        </li>
+      </ul>
+    </nav>
+
+    <button
+      type="button"
+      id="menu-toggle"
+      class="inline-flex size-11 items-center justify-center rounded-full text-ink hover:bg-sand md:hidden"
+      aria-expanded="false"
+      aria-controls="mobile-menu"
+    >
+      <span class="sr-only">Menu</span>
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+        <path d="M4 7h16M4 12h16M4 17h16" stroke-linecap="round"></path>
+      </svg>
+    </button>
+  </div>
+
+  <nav id="mobile-menu" aria-label="Main" class="hidden border-t border-line bg-paper md:hidden">
+    <ul class="container-site flex flex-col py-3">
+      {
+        NAV.map((item) => (
+          <li>
+            <a
+              href={item.href}
+              aria-current={isActive(item.href) ? 'page' : undefined}
+              class="flex min-h-12 items-center text-lg font-medium text-ink no-underline aria-[current=page]:text-clay"
+            >
+              {item.label}
+            </a>
+          </li>
+        ))
+      }
+      <li class="pt-2 pb-1">
+        <a href={BOOK.primaryUrl} class="btn btn-primary w-full" data-track="book_click" data-track-label="mobile-menu">Get the Book</a>
+      </li>
+    </ul>
+  </nav>
+</header>
+
+<script>
+  const toggle = document.getElementById('menu-toggle');
+  const menu = document.getElementById('mobile-menu');
+  toggle?.addEventListener('click', () => {
+    const open = toggle.getAttribute('aria-expanded') === 'true';
+    toggle.setAttribute('aria-expanded', String(!open));
+    menu?.classList.toggle('hidden', open);
+  });
+</script>

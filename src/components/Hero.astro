@@ -1,0 +1,44 @@
+---
+import { Image } from 'astro:assets';
+import bookCover from '../assets/book-cover.webp';
+import { BOOK } from '../consts';
+---
+
+<section class="relative overflow-hidden bg-gradient-to-b from-sky via-[#eef1ec] to-paper">
+  <!-- Soft hillside echoing the cover painting -->
+  <svg
+    class="pointer-events-none absolute inset-x-0 bottom-0 h-40 w-full text-sand/70 sm:h-56"
+    viewBox="0 0 1440 240"
+    preserveAspectRatio="none"
+    aria-hidden="true"
+  >
+    <path fill="currentColor" d="M0 190 C 320 120 560 210 860 150 C 1120 100 1300 130 1440 90 L1440 240 L0 240 Z"></path>
+  </svg>
+
+  <div class="container-site relative grid items-center gap-12 py-16 sm:py-20 lg:grid-cols-[1.25fr_1fr] lg:py-28">
+    <div>
+      <p class="eyebrow">Author · Counselor · Speaker</p>
+      <h1 class="mt-4 text-5xl leading-[1.05] font-medium sm:text-6xl lg:text-7xl">Your Story of Healing Starts Here</h1>
+      <p class="mt-6 max-w-xl text-lg text-muted sm:text-xl">
+        Like many, you've experienced abandonment, instability, or abuse. And like many, you're searching for peace and
+        hope. This book shows you the way.
+      </p>
+      <div class="mt-8 flex flex-wrap gap-3">
+        <a href={BOOK.primaryUrl} class="btn btn-primary" data-track="book_click" data-track-label="hero">Get the Book</a>
+        <a href="/about" class="btn btn-secondary">Learn More</a>
+      </div>
+    </div>
+
+    <div class="mx-auto w-56 sm:w-64 lg:w-80">
+      <Image
+        src={bookCover}
+        alt={`Cover of ${BOOK.title} by Michael J. Kalous: a painted sagebrush hillside under a wide cloudy sky`}
+        widths={[320, 480, 640]}
+        sizes="(min-width: 1024px) 320px, 256px"
+        loading="eager"
+        fetchpriority="high"
+        class="rotate-2 rounded-sm shadow-[0_30px_60px_-20px_rgba(42,37,34,0.45)]"
+      />
+    </div>
+  </div>
+</section>

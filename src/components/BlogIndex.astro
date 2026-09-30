@@ -1,0 +1,74 @@
+---
+// Shared listing for /blog, /blog/page/N and /blog/category/X.
+import BlogCard from './BlogCard.astro';
+import type { Post } from '../lib/posts';
+
+interface Props {
+  title: string;
+  intro?: string;
+  posts: Post[];
+  categories: { name: string; slug: string; count: number }[];
+  totalCount: number;
+  activeCategory?: string;
+  prevUrl?: string;
+  nextUrl?: string;
+  currentPage?: number;
+  lastPage?: number;
+}
+
+const { title, intro, posts, categories, totalCount, activeCategory, prevUrl, nextUrl, currentPage, lastPage } = Astro.props;
+---
+
+<section class="border-b border-line bg-gradient-to-b from-sky/60 to-paper">
+  <div class="container-site py-14 sm:py-20">
+    <p class="eyebrow">Blog</p>
+    <h1 class="mt-3 text-5xl font-medium sm:text-6xl">{title}</h1>
+    {intro && <p class="mt-4 max-w-2xl text-lg text-muted">{intro}</p>}
+  </div>
+</section>
+
+<div class="container-site grid gap-10 py-12 lg:grid-cols-[220px_1fr] lg:gap-14">
+  <aside aria-labelledby="categories-heading">
+    <h2 id="categories-heading" class="font-sans text-sm font-semibold tracking-wide text-muted uppercase">Categories</h2>
+    <ul class="mt-4 flex flex-wrap gap-2 lg:flex-col lg:items-start">
+      <li>
+        <a href="/blog" class="chip" aria-current={!activeCategory ? 'page' : undefined}>All posts ({totalCount})</a>
+      </li>
+      {
+        categories.map((c) => (
+          <li>
+            <a href={`/blog/category/${c.slug}`} class="chip" aria-current={activeCategory === c.slug ? 'page' : undefined}>
+              {c.name} ({c.count})
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </aside>
+
+  <div>
+    {
+      posts.length ? (
+        <div class="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
+          {posts.map((post) => (
+            <BlogCard post={post} headingLevel="h2" />
+          ))}
+        </div>
+      ) : (
+        <p class="text-muted">No posts here yet.</p>
+      )
+    }
+
+    {
+      lastPage && lastPage > 1 && (
+        <nav aria-label="Pagination" class="mt-12 flex items-center justify-between gap-4">
+          {prevUrl ? <a href={prevUrl} class="btn btn-secondary" rel="prev">← Newer posts</a> : <span />}
+          <span class="text-sm text-muted">
+            Page {currentPage} of {lastPage}
+          </span>
+          {nextUrl ? <a href={nextUrl} class="btn btn-secondary" rel="next">Older posts →</a> : <span />}
+        </nav>
+      )
+    }
+  </div>
+</div>

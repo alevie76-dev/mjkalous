@@ -1,0 +1,35 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": "astro",
+  "buildCommand": "astro build",
+  "outputDirectory": "dist",
+  "trailingSlash": false,
+  "redirects": [
+    { "source": "/blog/who-i-am-what-ive-done-what-i-offer/kcw85i", "destination": "/blog/who-i-am-what-ive-done-what-i-offer", "permanent": true },
+    { "source": "/blog/the-way/lglx1z", "destination": "/blog/the-way", "permanent": true },
+    { "source": "/blog/fear/v9v4tw", "destination": "/blog/fear", "permanent": true },
+    { "source": "/blog/reborn/qtr26k", "destination": "/blog/reborn", "permanent": true },
+    { "source": "/blog/:date(\\d{4}-\\d{2}-\\d{2})-:slug", "destination": "/blog/:slug", "permanent": false },
+    { "source": "/books", "destination": "/#book", "permanent": true }
+  ],
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        { "key": "Strict-Transport-Security", "value": "max-age=63072000; includeSubDomains; preload" },
+        { "key": "X-Content-Type-Options", "value": "nosniff" },
+        { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" },
+        { "key": "Permissions-Policy", "value": "camera=(), microphone=(), geolocation=(), interest-cohort=()" },
+        { "key": "X-Frame-Options", "value": "SAMEORIGIN" }
+      ]
+    },
+    {
+      "source": "/_astro/(.*)",
+      "headers": [{ "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }]
+    },
+    {
+      "source": "/admin/(.*)",
+      "headers": [{ "key": "X-Robots-Tag", "value": "noindex, nofollow" }]
+    }
+  ]
+}

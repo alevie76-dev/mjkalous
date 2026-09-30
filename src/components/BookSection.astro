@@ -1,0 +1,40 @@
+---
+import { Image } from 'astro:assets';
+import bookCover from '../assets/book-cover.webp';
+import { BOOK } from '../consts';
+---
+
+<section id="book" class="bg-sand py-16 sm:py-24" aria-labelledby="book-heading">
+  <div class="container-site grid items-center gap-10 md:grid-cols-[0.8fr_1.2fr] lg:gap-16">
+    <Image
+      src={bookCover}
+      alt={`Cover of ${BOOK.title}`}
+      widths={[280, 420, 560]}
+      sizes="(min-width: 768px) 280px, 60vw"
+      class="mx-auto w-3/5 max-w-[280px] rounded-sm shadow-xl md:w-full"
+    />
+    <div>
+      <p class="eyebrow">The Book</p>
+      <h2 id="book-heading" class="mt-3 text-4xl font-medium sm:text-5xl">{BOOK.title}</h2>
+      <p class="mt-5 text-lg">{BOOK.description}</p>
+      <h3 class="mt-8 font-sans text-sm font-semibold tracking-wide text-muted uppercase">Available from</h3>
+      <ul class="mt-3 flex flex-wrap gap-3">
+        {
+          BOOK.retailers.map((r, i) => (
+            <li>
+              <a
+                href={r.href}
+                class={`btn ${i === 0 ? 'btn-primary' : 'btn-secondary'}`}
+                data-track="book_click"
+                data-track-label={r.name}
+                rel="noopener"
+              >
+                {r.name}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </div>
+</section>

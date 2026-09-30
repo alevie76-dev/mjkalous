@@ -1,0 +1,31 @@
+---
+import type { GetStaticPaths } from 'astro';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import BlogIndex from '../../../components/BlogIndex.astro';
+import { getPosts, categoriesWithCounts } from '../../../lib/posts';
+
+export const getStaticPaths = (async () => {
+  const posts = await getPosts();
+  return categoriesWithCounts(posts).map((c) => ({
+    params: { category: c.slug },
+    props: {
+      name: c.name,
+      posts: posts.filter((p) => p.data.categories.includes(c.name)),
+      all: posts,
+    },
+  }));
+}) satisfies GetStaticPaths;
+
+const { name, posts, all } = Astro.props;
+const { category } = Astro.params;
+---
+
+<BaseLayout title={`${name} — Blog`} description={`Posts from Michael J. Kalous in ${name}.`}>
+  <BlogIndex
+    title={name}
+    posts={posts}
+    categories={categoriesWithCounts(all)}
+    totalCount={all.length}
+    activeCategory={category}
+  />
+</BaseLayout>

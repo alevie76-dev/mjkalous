@@ -14,18 +14,18 @@ How mjkalous.com is wired together, and how to hand it to Michael.
 | Kit | Newsletter | Michael (to create) | kit.com |
 | Google Analytics 4 | Traffic analytics | TBD | analytics.google.com |
 | Meta Pixel | Facebook/Instagram conversion tracking | TBD | Meta Events Manager |
-| Google Workspace | `michael@mjkalous.com` inbox | Phase 1 (to set up) | admin.google.com |
+| Google Workspace | `michael@mjkalous.com` inbox | Michael | admin.google.com |
 
 ## Launch checklist
 
-- [ ] **Inbox exists.** `michael@mjkalous.com` must be a real mailbox (Google Workspace, Phase 1) before the contact form and footer point to it. Until then, set `CONTACT_TO_EMAIL` to an address that works.
-- [ ] **GitHub repo** pushed, and `repo:` in `public/admin/config.yml` matches it.
+- [x] **Inbox exists.** `michael@mjkalous.com` is set up in Michael's Google Workspace.
+- [x] **GitHub repo** pushed to `alevie76-dev/mjkalous` (private), matching `repo:` in `public/admin/config.yml`.
 - [ ] **Vercel project** imported, with env vars set (see README).
 - [ ] **GitHub OAuth App** created, callback `https://mjkalous.com/api/callback`.
 - [ ] **Resend**: add and verify the `mjkalous.com` domain (Resend lists the SPF/DKIM DNS records; add them in Cloudflare), create an API key, and set `RESEND_API_KEY` and `CONTACT_FROM_EMAIL` (e.g. `Website Contact Form <contact@mjkalous.com>`).
 - [ ] **Kit**: create the form and set `KIT_FORM_ID`. The ID is the number in the form's embed code or URL (`app.kit.com/forms/<ID>/...`). Double opt-in is recommended.
 - [ ] **GA4 / Pixel**: set `GA_MEASUREMENT_ID` and `META_PIXEL_ID`, then redeploy.
-- [ ] **DNS cutover** (below).
+- [ ] **DNS cutover** (below), only after Michael approves the new design. Until then, review on the `*.vercel.app` URL.
 - [ ] **After launch**: submit `https://mjkalous.com/sitemap-index.xml` in Google Search Console. Test the contact form, newsletter signup, and `/admin` login on the live domain. Confirm the old Tertulia post URLs redirect.
 
 ## DNS (Cloudflare → Vercel)

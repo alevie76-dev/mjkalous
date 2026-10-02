@@ -64,6 +64,7 @@ To add a category, add it to both `CATEGORIES` in `src/consts.ts` and the `categ
 
 ## Analytics & privacy
 
+- **Vercel Web Analytics** is enabled automatically when deployed to Vercel. It's privacy-friendly and doesn't require cookie consent.
 - GA4 and the Meta Pixel load **only after a visitor clicks Accept** on the cookie banner. The banner only appears when at least one ID is set.
 - Tracked events: `book_click` (retailer/Get the Book buttons → Pixel `ViewContent`), `sign_up` (newsletter → Pixel `CompleteRegistration`), `generate_lead` (contact form → Pixel `Lead`), `share`, `social_click`.
 - To track another link, add `data-track="event_name"` (and optionally `data-track-label="..."`).

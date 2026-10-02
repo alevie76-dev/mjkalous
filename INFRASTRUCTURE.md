@@ -73,15 +73,24 @@ Michael logs in to Cloudflare (dash.cloudflare.com, **mjkalous.com → DNS**). D
 
 ## DNS (Cloudflare → Vercel)
 
-The domain stays on Cloudflare nameservers. Only the web records change:
+The domain stays on Cloudflare nameservers. Only the two web records change.
 
-1. In Vercel → Project → **Settings → Domains**, add `mjkalous.com` and `www.mjkalous.com`. Vercel then shows the exact records to create.
-2. In Cloudflare → DNS, replace the current Tertulia records with the ones Vercel shows. Typically:
-   - `A` `@` → Vercel's IP (e.g. `76.76.21.21`)
-   - `CNAME` `www` → `cname.vercel-dns.com` (or the project-specific value Vercel gives)
-3. Set these records to **DNS only** (grey cloud). Vercel issues its own SSL certificate, and Cloudflare's proxy interferes with that.
-4. **Leave MX, SPF, DKIM, and other email records alone.** Only the `@` and `www` web records change.
-5. Pick one canonical host (apex `mjkalous.com` is recommended) and have Vercel redirect the other to it.
+**In Vercel first (safe any time):** Project → **Settings → Domains**.
+1. `www.mjkalous.com` is already attached (added 2026-10-02). Also add **`mjkalous.com`**.
+2. Make **`mjkalous.com` the primary** and set `www.mjkalous.com` to **Redirect to mjkalous.com** (308). The site's canonical tags, sitemap, RSS, OAuth callback, and CMS config all use the bare domain.
+3. Vercel then lists the records to create.
+
+**In Cloudflare (during the session, after design approval):** replace the current Tertulia records (don't add alongside them):
+
+| Type | Name | Value | Proxy |
+|---|---|---|---|
+| A | `@` | `76.76.21.21` (confirm against Vercel's Domains page) | **DNS only** (grey cloud) |
+| CNAME | `www` | the project-specific value Vercel shows (copy exactly) | **DNS only** (grey cloud) |
+
+- **Grey cloud is required.** Vercel issues its own SSL certificate, and Cloudflare's proxy interferes with that.
+- **Leave MX, SPF, DKIM, and the Resend records alone.** Only `@` and `www` change.
+- **Ignore Vercel's "change nameservers" option.** It would move all DNS, including Google Workspace email and Resend records, away from Cloudflare.
+- Vercel emails when the domain verifies. Then check https://mjkalous.com loads the new site and https://www.mjkalous.com redirects to it.
 
 Rollback: restore the previous Tertulia `A`/`CNAME` values in Cloudflare.
 

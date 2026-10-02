@@ -77,6 +77,22 @@ To add a category, add it to both `CATEGORIES` in `src/consts.ts` and the `categ
 
 Note on branch protection: if `main` requires PR reviews, the CMS can't commit to it directly. Either exempt the CMS or turn on Decap's `publish_mode: editorial_workflow`, which opens a PR for each post.
 
+## Domain Management (Cloudflare)
+
+Your domain (mjkalous.com) uses Cloudflare to manage DNS records.
+
+**To make changes to your domain:**
+1. Go to https://dash.cloudflare.com/login
+2. Log in with your email
+3. Click on mjkalous.com in the list
+4. Go to the **DNS** tab
+
+You won't need to touch this unless we're updating the site or changing email settings. If you get confused by all the "stuff" in Cloudflare, just send me a message and I'll handle it.
+
+**Domain Renewal:** Your domain renews on April 29, 2027. You'll get renewal notices at your Name.com account.
+
+For the record changes that move the site from Tertulia to Vercel, see [INFRASTRUCTURE.md](INFRASTRUCTURE.md#dns-cloudflare--vercel).
+
 ## GitHub OAuth (blog editor login)
 
 1. GitHub → **Settings → Developer settings → OAuth Apps → New OAuth App**

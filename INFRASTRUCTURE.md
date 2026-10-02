@@ -9,7 +9,8 @@ How mjkalous.com is wired together, and how to hand it to Michael.
 | GitHub | Code + blog posts (`src/content/blog`) | Allen (`alevie76-dev`) | Repo settings |
 | GitHub OAuth App | Login for `/admin` | Allen | GitHub → Developer settings → OAuth Apps |
 | Vercel | Hosting, builds, `/api` functions | Allen | Vercel project → Settings |
-| Cloudflare | DNS for mjkalous.com | Michael's account (TBC) | Cloudflare → DNS |
+| Name.com | Domain registration (renews April 29, 2027) | Michael | name.com account |
+| Cloudflare | DNS for mjkalous.com | Michael | Cloudflare → DNS |
 | Resend | Sends contact-form email | TBD | resend.com → Domains / API Keys |
 | Kit | Newsletter | Michael (to create) | kit.com |
 | Google Analytics 4 | Traffic analytics | TBD | analytics.google.com |

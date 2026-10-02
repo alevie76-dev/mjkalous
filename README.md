@@ -35,8 +35,9 @@ npm run build && npm run preview
 | `OAUTH_CLIENT_ID`, `OAUTH_CLIENT_SECRET` | `/api/auth`, `/api/callback` | GitHub OAuth App (see below) |
 | `OAUTH_STATE_SECRET` | OAuth | Optional; signs the login `state`. Defaults to the client secret |
 | `SITE_URL` | OAuth | Optional; forces the callback origin (default: request host) |
-| `RESEND_API_KEY` | `/api/contact` | From resend.com |
-| `CONTACT_FROM_EMAIL` | `/api/contact` | Sender on a Resend-verified domain, e.g. `Website Contact Form <contact@mjkalous.com>` |
+| `RESEND_API_KEY` | `/api/contact` | Set by the Vercel Resend integration |
+| `RESEND_EMAIL_DOMAIN` | `/api/contact` | Set by the integration. The form sends as `contact@<domain>` |
+| `CONTACT_FROM_EMAIL` | `/api/contact` | Optional. Overrides the sender, e.g. `Website Contact Form <contact@mjkalous.com>` |
 | `CONTACT_TO_EMAIL` | `/api/contact` | Defaults to `michael@mjkalous.com` |
 | `GA_MEASUREMENT_ID` | build | `G-XXXXXXX`. Blank = no GA |
 | `META_PIXEL_ID` | build | Blank = no Pixel |

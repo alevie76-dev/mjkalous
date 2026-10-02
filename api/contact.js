@@ -36,8 +36,12 @@ export default async function handler(req, res) {
   }
 
   const to = process.env.CONTACT_TO_EMAIL || 'michael@mjkalous.com';
-  // Must be an address on a domain verified in Resend. onboarding@resend.dev only delivers to the Resend account owner.
-  const from = process.env.CONTACT_FROM_EMAIL || 'Website Contact Form <onboarding@resend.dev>';
+  // Must be an address on a domain verified in Resend. RESEND_EMAIL_DOMAIN is set by the Vercel Resend
+  // integration. onboarding@resend.dev (last resort) only delivers to the Resend account owner.
+  const domain = process.env.RESEND_EMAIL_DOMAIN;
+  const from =
+    process.env.CONTACT_FROM_EMAIL ||
+    (domain ? `Website Contact Form <contact@${domain}>` : 'Website Contact Form <onboarding@resend.dev>');
 
   try {
     const r = await fetch('https://api.resend.com/emails', {

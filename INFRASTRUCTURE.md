@@ -21,13 +21,27 @@ How mjkalous.com is wired together, and how to hand it to Michael.
 
 - [x] **Inbox exists.** `michael@mjkalous.com` is set up in Michael's Google Workspace.
 - [x] **GitHub repo** pushed to `alevie76-dev/mjkalous` (private), matching `repo:` in `public/admin/config.yml`.
-- [ ] **Vercel project** imported, with env vars set (see README).
+- [x] **Vercel project** imported as `opsrelay-projects/mjkalous` and linked locally (`vercel link`). Preview at mjkalous.vercel.app.
 - [ ] **GitHub OAuth App** created, callback `https://mjkalous.com/api/callback`.
-- [ ] **Resend**: add and verify the `mjkalous.com` domain (Resend lists the SPF/DKIM DNS records; add them in Cloudflare), create an API key, and set `RESEND_API_KEY` and `CONTACT_FROM_EMAIL` (e.g. `Website Contact Form <contact@mjkalous.com>`).
+- [x] **Resend integration** installed through Vercel (region `us-east-1`). It set `RESEND_API_KEY` and `RESEND_EMAIL_DOMAIN`, and the contact form sends as `contact@mjkalous.com`.
+- [ ] **Resend DNS records** added in Cloudflare and the domain shows **Verified** in Resend. Until then, the contact form returns an error and tells visitors to email Michael directly.
 - [x] **Kit**: form `9992996` ("Join the Wisdom from the Wreckage Community") is wired in as the default `KIT_FORM_ID`. Double opt-in is on.
 - [ ] **GA4 / Pixel**: set `GA_MEASUREMENT_ID` and `META_PIXEL_ID`, then redeploy.
 - [ ] **DNS cutover** (below), only after Michael approves the new design. Until then, review on the `*.vercel.app` URL.
 - [ ] **After launch**: submit `https://mjkalous.com/sitemap-index.xml` in Google Search Console. Test the contact form, newsletter signup, and `/admin` login on the live domain. Confirm the old Tertulia post URLs redirect.
+
+## Cloudflare session with Michael
+
+Michael logs in to Cloudflare (dash.cloudflare.com, **mjkalous.com → DNS**). Do both parts in the same sitting.
+
+**Part 1: email records for Resend (safe to do any time).**
+1. In Vercel → mjkalous project → Integrations → Resend (or resend.com → Domains → mjkalous.com), copy the DNS records it lists. Usually these are an MX and a TXT (SPF) record on a `send` subdomain, plus a TXT (DKIM) record such as `resend._domainkey`.
+2. Add each one in Cloudflare exactly as shown, with the proxy **off** (grey cloud).
+3. **Don't edit or delete the existing MX records on `@`.** Those deliver Michael's Google Workspace email. Resend's records live on their own subdomains and don't touch them.
+4. Back in Resend, click **Verify**. It can take a few minutes, occasionally longer.
+5. Send a test message from the contact page and confirm it arrives at michael@mjkalous.com.
+
+**Part 2: point the website at Vercel (only once Michael approves the design).** Follow the next section.
 
 ## DNS (Cloudflare → Vercel)
 

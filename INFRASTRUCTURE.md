@@ -53,7 +53,8 @@ Notes:
 - [ ] **Resend DNS records** added in Cloudflare and the domain shows **Verified** in Resend. Until then, the contact form returns an error and tells visitors to email Michael directly.
 - [x] **Kit account** created under Michael's credentials. Form `9992996` ("Join the Wisdom from the Wreckage Community") is wired in as the default `KIT_FORM_ID`. Double opt-in is on.
 - [ ] **Kit welcome email sequence**: set up the automation that follows a new signup. Scheduled for after the DNS cutover.
-- [ ] **GA4 / Pixel**: set `GA_MEASUREMENT_ID` and `META_PIXEL_ID`, then redeploy.
+- [x] **GA4**: Measurement ID `G-K7QTM4RHVL` set as `GA_MEASUREMENT_ID` (Production only, so branch previews and local dev aren't tracked) and production redeployed (2026-10-02). Still to do in GA4 admin: data retention → 14 months; mark `sign_up` and `generate_lead` as key events once they've fired.
+- [ ] **Meta Pixel**: create in Events Manager under Michael's business portfolio, set `META_PIXEL_ID` (Production), redeploy. Domain verification TXT record goes in during the Cloudflare session.
 - [ ] **DNS cutover** (below), only after Michael approves the new design. Until then, review on the `*.vercel.app` URL.
 - [ ] **After launch**: submit `https://mjkalous.com/sitemap-index.xml` in Google Search Console. Test the contact form, newsletter signup, and `/admin` login on the live domain. Confirm the old Tertulia post URLs redirect.
 

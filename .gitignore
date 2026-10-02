@@ -16,3 +16,8 @@ npm-debug.log*
 
 # macOS
 .DS_Store
+
+# AI agent skills installed by integrations (local only)
+.agents/
+.claude/skills/
+skills-lock.json

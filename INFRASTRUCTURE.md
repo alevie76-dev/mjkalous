@@ -84,7 +84,7 @@ The domain stays on Cloudflare nameservers. Only the two web records change.
 
 | Type | Name | Value | Proxy |
 |---|---|---|---|
-| A | `@` | `76.76.21.21` (confirm against Vercel's Domains page) | **DNS only** (grey cloud) |
+| A | `@` | `216.198.79.1` (Vercel's current recommendation; the older `76.76.21.21` still works but isn't preferred) | **DNS only** (grey cloud) |
 | CNAME | `www` | the project-specific value Vercel shows (copy exactly) | **DNS only** (grey cloud) |
 
 - **Grey cloud is required.** Vercel issues its own SSL certificate, and Cloudflare's proxy interferes with that.

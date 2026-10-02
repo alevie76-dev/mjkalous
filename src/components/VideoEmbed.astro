@@ -1,0 +1,49 @@
+---
+// Click-to-load YouTube embed. Shows a self-hosted thumbnail and only loads the
+// (privacy-enhanced) YouTube player when the visitor presses play, so no YouTube
+// scripts or cookies touch the page until then.
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+
+interface Props {
+  id: string;
+  title: string;
+  poster: ImageMetadata;
+  /** Label sent with the `video_play` analytics event. */
+  trackLabel: string;
+  duration?: string;
+}
+
+const { id, title, poster, trackLabel, duration } = Astro.props;
+---
+
+<div class="video-embed relative aspect-video overflow-hidden rounded-2xl bg-ink shadow-lg" data-video-id={id} data-video-title={title}>
+  <button type="button" data-track="video_play" data-track-label={trackLabel} class="group absolute inset-0 h-full w-full cursor-pointer">
+    <Image src={poster} alt="" widths={[480, 800, 1280]} sizes="(min-width: 1024px) 800px, 100vw" class="h-full w-full object-cover" />
+    <span class="absolute inset-0 bg-ink/20 transition-colors group-hover:bg-ink/10"></span>
+    <span class="absolute top-1/2 left-1/2 flex h-18 w-18 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-clay text-white shadow-xl transition-transform group-hover:scale-110 sm:h-22 sm:w-22">
+      <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="ml-1 h-8 w-8 sm:h-10 sm:w-10"><path d="M8 5.14v13.72a1 1 0 0 0 1.5.86l11-6.86a1 1 0 0 0 0-1.72l-11-6.86A1 1 0 0 0 8 5.14Z"></path></svg>
+    </span>
+    {duration && <span class="absolute right-3 bottom-3 rounded-md bg-ink/80 px-2 py-0.5 text-sm font-semibold text-white">{duration}</span>}
+    <span class="sr-only">Play video: {title}</span>
+  </button>
+</div>
+
+<script>
+  document.querySelectorAll<HTMLElement>('.video-embed').forEach((el) => {
+    el.querySelector('button')?.addEventListener(
+      'click',
+      () => {
+        const iframe = document.createElement('iframe');
+        iframe.src = `https://www.youtube-nocookie.com/embed/${el.dataset.videoId}?autoplay=1&rel=0&playsinline=1`;
+        iframe.title = el.dataset.videoTitle ?? 'Video';
+        iframe.allow = 'autoplay; encrypted-media; picture-in-picture; fullscreen';
+        iframe.allowFullscreen = true;
+        iframe.className = 'absolute inset-0 h-full w-full';
+        el.replaceChildren(iframe);
+        iframe.focus();
+      },
+      { once: true },
+    );
+  });
+</script>

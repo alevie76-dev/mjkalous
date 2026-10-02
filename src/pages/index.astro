@@ -4,6 +4,8 @@ import Hero from '../components/Hero.astro';
 import Newsletter from '../components/Newsletter.astro';
 import About from '../components/About.astro';
 import BookSection from '../components/BookSection.astro';
+import VideoEmbed from '../components/VideoEmbed.astro';
+import trailerPoster from '../assets/video-trailer.jpg';
 import BlogCard from '../components/BlogCard.astro';
 import { getPosts, categoriesWithCounts } from '../lib/posts';
 
@@ -15,6 +17,23 @@ const categories = categoriesWithCounts(posts);
 <BaseLayout>
   <Hero />
   <Newsletter placement="home-hero" />
+
+  <section class="pt-16 sm:pt-24" aria-labelledby="trailer-heading">
+    <div class="container-site max-w-4xl text-center">
+      <p class="eyebrow">The Story Behind the Book</p>
+      <h2 id="trailer-heading" class="mt-3 text-4xl font-medium sm:text-5xl">Wisdom From the Wreckage in 60 Seconds</h2>
+      <div class="mt-10">
+        <VideoEmbed
+          id="4jQ0dhGhMlA"
+          title="Wisdom From the Wreckage by Michael J. Kalous"
+          poster={trailerPoster}
+          trackLabel="trailer"
+          duration="1:00"
+        />
+      </div>
+    </div>
+  </section>
+
   <About />
 
   {

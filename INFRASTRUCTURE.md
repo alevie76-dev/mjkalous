@@ -12,7 +12,7 @@ How mjkalous.com is wired together, and how to hand it to Michael.
 | Name.com | Domain registration (renews April 29, 2027) | Michael | name.com account |
 | Cloudflare | DNS for mjkalous.com | Michael | Cloudflare → DNS |
 | Resend | Sends contact-form email | TBD | resend.com → Domains / API Keys |
-| Kit | Newsletter | Michael (to create) | kit.com |
+| Kit | Newsletter | Michael (account under his credentials) | kit.com |
 | Google Analytics 4 | Traffic analytics | TBD | analytics.google.com |
 | Meta Pixel | Facebook/Instagram conversion tracking | TBD | Meta Events Manager |
 | Google Workspace | `michael@mjkalous.com` inbox, plus the `contact@mjkalous.com` alias | Michael | admin.google.com |
@@ -51,7 +51,8 @@ Notes:
 - [ ] **GitHub OAuth App** created, callback `https://mjkalous.com/api/callback`.
 - [x] **Resend integration** installed through Vercel (region `us-east-1`). It set `RESEND_API_KEY` and `RESEND_EMAIL_DOMAIN`, and the contact form sends as `contact@mjkalous.com`.
 - [ ] **Resend DNS records** added in Cloudflare and the domain shows **Verified** in Resend. Until then, the contact form returns an error and tells visitors to email Michael directly.
-- [x] **Kit**: form `9992996` ("Join the Wisdom from the Wreckage Community") is wired in as the default `KIT_FORM_ID`. Double opt-in is on.
+- [x] **Kit account** created under Michael's credentials. Form `9992996` ("Join the Wisdom from the Wreckage Community") is wired in as the default `KIT_FORM_ID`. Double opt-in is on.
+- [ ] **Kit welcome email sequence**: set up the automation that follows a new signup. Scheduled for after the DNS cutover.
 - [ ] **GA4 / Pixel**: set `GA_MEASUREMENT_ID` and `META_PIXEL_ID`, then redeploy.
 - [ ] **DNS cutover** (below), only after Michael approves the new design. Until then, review on the `*.vercel.app` URL.
 - [ ] **After launch**: submit `https://mjkalous.com/sitemap-index.xml` in Google Search Console. Test the contact form, newsletter signup, and `/admin` login on the live domain. Confirm the old Tertulia post URLs redirect.
@@ -103,5 +104,5 @@ Do these in order, so the site stays up throughout.
 5. **Env vars**: In Vercel, update `OAUTH_CLIENT_ID` and `OAUTH_CLIENT_SECRET` if the app changed, then redeploy.
 6. **Contact form**: Make sure the Resend account and API key belong to Michael (or create his own, verify the domain, and swap `RESEND_API_KEY`). Confirm that mail reaches `michael@mjkalous.com`.
 7. **Analytics**: GA4: Admin → Account access management → add Michael as Administrator, then remove yourself. Meta: in Business Settings, give Michael's Business account ownership of the Pixel/dataset.
-8. **Kit**: Should already be Michael's account. If you created it, transfer ownership in Kit's account settings.
+8. **Kit**: Already Michael's account, created with his credentials. Remove your access (Settings → Team) if you were added.
 9. **Remove your access** from the repo, Vercel, Cloudflare, and Resend once Michael confirms everything works.

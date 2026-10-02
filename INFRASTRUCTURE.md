@@ -15,11 +15,37 @@ How mjkalous.com is wired together, and how to hand it to Michael.
 | Kit | Newsletter | Michael (to create) | kit.com |
 | Google Analytics 4 | Traffic analytics | TBD | analytics.google.com |
 | Meta Pixel | Facebook/Instagram conversion tracking | TBD | Meta Events Manager |
-| Google Workspace | `michael@mjkalous.com` inbox | Michael | admin.google.com |
+| Google Workspace | `michael@mjkalous.com` inbox, plus the `contact@mjkalous.com` alias | Michael | admin.google.com |
+
+## Email addresses
+
+| Address | What it is | Where mail goes |
+|---|---|---|
+| `michael@mjkalous.com` | Michael's Google Workspace mailbox | His Gmail inbox |
+| `contact@mjkalous.com` | Workspace **alias** of Michael's account (not a separate mailbox, no extra license) | The same Gmail inbox as `michael@` |
+
+**How a contact-form message travels:**
+
+1. A visitor submits the form on the site.
+2. `/api/contact` asks Resend to send an email:
+   - **From:** `Website Contact Form <contact@mjkalous.com>`
+   - **To:** `michael@mjkalous.com` (`CONTACT_TO_EMAIL`)
+   - **Reply-To:** the visitor's own email address
+3. It arrives in Michael's Gmail inbox. When he clicks **Reply**, the reply goes straight to the visitor, sent from `michael@` (or from `contact@` if he picks it in the From menu).
+
+Why the alias matters even though the form delivers to `michael@`:
+- **Replies and bounces to `contact@` aren't lost.** If anyone writes to `contact@mjkalous.com` directly, or replies to the From address instead of Reply-To, it lands in Michael's inbox.
+- **It gives Michael a public address.** `contact@` can be published (e.g. on the site, in a book signature, or on social profiles) while `michael@` stays more private.
+
+Notes:
+- **Sending from `contact@`:** Michael can choose `contact@` as the From address in Gmail. Set it up once in Gmail → Settings → Accounts → **Send mail as** → Add another email address. Workspace aliases verify automatically, so no password or server settings are needed. Side effect: once `contact@` is one of his "send as" addresses, Gmail may show incoming form messages as from **"me"** in the inbox list. The subject ("New message from *Name* via mjkalous.com") still identifies them.
+- **The alias receives mail through Workspace's MX records.** Resend is only used to *send* the form emails, and the site cutover doesn't touch MX, so the alias works the same before and after launch.
+- **Filtering form messages:** a Gmail filter on `from:contact@mjkalous.com subject:"via mjkalous.com"` can label them (e.g. "Website") so they're easy to find.
 
 ## Launch checklist
 
 - [x] **Inbox exists.** `michael@mjkalous.com` is set up in Michael's Google Workspace.
+- [x] **`contact@` alias** created on Michael's Workspace account (2026-10-02). See [Email addresses](#email-addresses).
 - [x] **GitHub repo** pushed to `alevie76-dev/mjkalous` (private), matching `repo:` in `public/admin/config.yml`.
 - [x] **Vercel project** imported as `opsrelay-projects/mjkalous` and linked locally (`vercel link`). Preview at mjkalous.vercel.app.
 - [ ] **GitHub OAuth App** created, callback `https://mjkalous.com/api/callback`.

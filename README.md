@@ -40,7 +40,9 @@ npm run build && npm run preview
 | `CONTACT_TO_EMAIL` | `/api/contact` | Defaults to `michael@mjkalous.com` |
 | `GA_MEASUREMENT_ID` | build | `G-XXXXXXX`. Blank = no GA |
 | `META_PIXEL_ID` | build | Blank = no Pixel |
-| `KIT_FORM_ID` | build | Numeric Kit form ID. Blank = the newsletter form says "almost ready" |
+| `KIT_FORM_ID` | build | Numeric Kit form ID. Defaults to `9992996`; set only to use a different form |
+
+The site's own forms post straight to Kit's form endpoint (`app.kit.com/forms/<id>/subscriptions`). Kit's JavaScript embed isn't used.
 
 `GA_MEASUREMENT_ID`, `META_PIXEL_ID`, and `KIT_FORM_ID` are baked in at build time. After you change them in Vercel, redeploy.
 

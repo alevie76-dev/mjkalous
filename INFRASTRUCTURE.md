@@ -23,7 +23,7 @@ How mjkalous.com is wired together, and how to hand it to Michael.
 - [ ] **Vercel project** imported, with env vars set (see README).
 - [ ] **GitHub OAuth App** created, callback `https://mjkalous.com/api/callback`.
 - [ ] **Resend**: add and verify the `mjkalous.com` domain (Resend lists the SPF/DKIM DNS records; add them in Cloudflare), create an API key, and set `RESEND_API_KEY` and `CONTACT_FROM_EMAIL` (e.g. `Website Contact Form <contact@mjkalous.com>`).
-- [ ] **Kit**: create the form and set `KIT_FORM_ID`. The ID is the number in the form's embed code or URL (`app.kit.com/forms/<ID>/...`). Double opt-in is recommended.
+- [x] **Kit**: form `9992996` ("Join the Wisdom from the Wreckage Community") is wired in as the default `KIT_FORM_ID`. Double opt-in is on.
 - [ ] **GA4 / Pixel**: set `GA_MEASUREMENT_ID` and `META_PIXEL_ID`, then redeploy.
 - [ ] **DNS cutover** (below), only after Michael approves the new design. Until then, review on the `*.vercel.app` URL.
 - [ ] **After launch**: submit `https://mjkalous.com/sitemap-index.xml` in Google Search Console. Test the contact form, newsletter signup, and `/admin` login on the live domain. Confirm the old Tertulia post URLs redirect.

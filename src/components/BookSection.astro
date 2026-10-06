@@ -20,11 +20,11 @@ import { BOOK } from '../consts';
       <h3 class="mt-8 font-sans text-sm font-semibold tracking-wide text-muted uppercase">Available from</h3>
       <ul class="mt-3 flex flex-wrap gap-3">
         {
-          BOOK.retailers.map((r, i) => (
+          BOOK.retailers.map((r) => (
             <li>
               <a
                 href={r.href}
-                class={`btn ${i === 0 ? 'btn-primary' : 'btn-secondary'}`}
+                class="btn btn-secondary"
                 data-track="book_click"
                 data-track-label={r.name}
                 target="_blank"

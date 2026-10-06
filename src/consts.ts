@@ -27,6 +27,10 @@ export const BOOK = {
   title: 'Wisdom From the Wreckage',
   description:
     'Hope, healing, and practical tools for anyone overcoming trauma and rebuilding their relationships.',
+  // Tagline and blurb from the publisher's promotional banner.
+  tagline: ['Overcoming the past.', 'Healing the present.', 'Building a better future.'],
+  blurb:
+    'A powerful true story of survival, faith, and restoration—offering hope to anyone navigating the pain of the past and reaching for a better tomorrow.',
   isbn: '9798899220968',
   retailers: [
     { name: 'Amazon', href: 'https://www.amazon.com/dp/B0GVPYY6GX' },

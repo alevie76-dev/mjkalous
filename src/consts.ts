@@ -28,7 +28,6 @@ export const BOOK = {
   description:
     'Hope, healing, and practical tools for anyone overcoming trauma and rebuilding their relationships.',
   isbn: '9798899220968',
-  primaryUrl: 'https://www.amazon.com/dp/B0GVPYY6GX',
   retailers: [
     { name: 'Amazon', href: 'https://www.amazon.com/dp/B0GVPYY6GX' },
     { name: 'Barnes & Noble', href: 'https://www.barnesandnoble.com/s/9798899220968' },

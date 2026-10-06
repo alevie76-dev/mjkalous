@@ -17,7 +17,7 @@ import { BOOK } from '../consts';
       <p class="eyebrow">{BOOK.tagline.map((line) => <span class="inline-block mr-[0.6em]">{line}</span>)}</p>
       <h2 id="book-heading" class="mt-3 text-4xl font-medium sm:text-5xl">{BOOK.title}</h2>
       <p class="mt-5 max-w-xl font-serif text-xl leading-relaxed italic sm:text-2xl">{BOOK.blurb}</p>
-      <h3 class="mt-8 font-sans text-sm font-semibold tracking-wide text-muted uppercase">Get Your Copy Today! Available from...</h3>
+      <h3 class="mt-8 font-sans text-base font-bold tracking-wide text-clay uppercase sm:text-lg">Get Your Copy Today! Available from...</h3>
       <ul class="mt-3 flex flex-wrap gap-3">
         {
           BOOK.retailers.map((r) => (

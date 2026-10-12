@@ -78,21 +78,19 @@ To add a category, add it to both `CATEGORIES` in `src/consts.ts` and the `categ
 
 Note on branch protection: if `main` requires PR reviews, the CMS can't commit to it directly. Either exempt the CMS or turn on Decap's `publish_mode: editorial_workflow`, which opens a PR for each post.
 
-## Domain Management (Cloudflare)
+## Domain Management (Namecheap + Vercel DNS)
 
-Your domain (mjkalous.com) uses Cloudflare to manage DNS records.
+The domain is **registered at Namecheap**, and its **DNS is hosted by Vercel** (nameservers `ns1.vercel-dns.com` / `ns2.vercel-dns.com`). Cloudflare and Name.com are no longer used.
 
-**To make changes to your domain:**
-1. Go to https://dash.cloudflare.com/login
-2. Log in with your email
-3. Click on mjkalous.com in the list
-4. Go to the **DNS** tab
+**To change DNS records** (website, email, verification records):
+1. Go to Vercel → **Domains** → mjkalous.com (or the project → Settings → Domains).
+2. Add or edit records there. Changes in Namecheap's "Advanced DNS" tab have no effect while the nameservers point at Vercel.
 
-You won't need to touch this unless we're updating the site or changing email settings. If you get confused by all the "stuff" in Cloudflare, just send me a message and I'll handle it.
+You won't need to touch this unless we're updating the site or changing email settings. If anything looks confusing, send me a message and I'll handle it.
 
-**Domain Renewal:** Your domain renews on April 29, 2027. You'll get renewal notices at your Name.com account.
+**Domain renewal:** Paid through **April 29, 2028**. Namecheap's free WithheldForPrivacy is active through **October 12, 2027**. The domain is currently in Allen's Namecheap account; it moves to an account for Michael after the 60-day post-transfer lock (see [INFRASTRUCTURE.md](INFRASTRUCTURE.md#handoff-transferring-to-michael)).
 
-For the record changes that move the site from Tertulia to Vercel, see [INFRASTRUCTURE.md](INFRASTRUCTURE.md#dns-cloudflare--vercel).
+For the current DNS records, see [INFRASTRUCTURE.md](INFRASTRUCTURE.md#dns-vercel).
 
 ## GitHub OAuth (blog editor login)
 

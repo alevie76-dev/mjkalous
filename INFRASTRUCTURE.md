@@ -9,8 +9,8 @@ How mjkalous.com is wired together, and how to hand it to Michael.
 | GitHub | Code + blog posts (`src/content/blog`) | Allen (`alevie76-dev`) | Repo settings |
 | GitHub OAuth App | Login for `/admin` | Allen | GitHub → Developer settings → OAuth Apps |
 | Vercel | Hosting, builds, `/api` functions | Allen | Vercel project → Settings |
-| Name.com | Domain registration (renews April 29, 2027) | Michael | name.com account |
-| Cloudflare | DNS for mjkalous.com | Michael | Cloudflare → DNS |
+| Namecheap | Domain registration (paid through April 29, 2028; WithheldForPrivacy through October 12, 2027) | Allen (paid on Allen's card); moves to Michael after the 60-day lock | namecheap.com → Domain List |
+| Vercel DNS | DNS for mjkalous.com (nameservers `ns1/ns2.vercel-dns.com`) | Allen (lives with the Vercel account) | Vercel → Domains → mjkalous.com |
 | Resend | Sends contact-form email | TBD | resend.com → Domains / API Keys |
 | Kit | Newsletter | Michael (account under his credentials) | kit.com |
 | Google Analytics 4 | Traffic analytics | TBD | analytics.google.com |
@@ -39,7 +39,7 @@ Why the alias matters even though the form delivers to `michael@`:
 
 Notes:
 - **Sending from `contact@`:** Michael can choose `contact@` as the From address in Gmail. Set it up once in Gmail → Settings → Accounts → **Send mail as** → Add another email address. Workspace aliases verify automatically, so no password or server settings are needed. Side effect: once `contact@` is one of his "send as" addresses, Gmail may show incoming form messages as from **"me"** in the inbox list. The subject ("New message from *Name* via mjkalous.com") still identifies them.
-- **The alias receives mail through Workspace's MX records.** Resend is only used to *send* the form emails, and the site cutover doesn't touch MX, so the alias works the same before and after launch.
+- **The alias receives mail through Workspace's MX records** (now in Vercel DNS). Resend is only used to *send* the form emails and never touches MX.
 - **Filtering form messages:** a Gmail filter on `from:contact@mjkalous.com subject:"via mjkalous.com"` can label them (e.g. "Website") so they're easy to find.
 
 ## Launch checklist
@@ -50,49 +50,36 @@ Notes:
 - [x] **Vercel project** imported as `opsrelay-projects/mjkalous` and linked locally (`vercel link`). Preview at mjkalous.vercel.app.
 - [ ] **GitHub OAuth App** created, callback `https://mjkalous.com/api/callback`.
 - [x] **Resend integration** installed through Vercel (region `us-east-1`). It set `RESEND_API_KEY` and `RESEND_EMAIL_DOMAIN`, and the contact form sends as `contact@mjkalous.com`.
-- [ ] **Resend DNS records** added in Cloudflare and the domain shows **Verified** in Resend. Until then, the contact form returns an error and tells visitors to email Michael directly.
+- [x] **Resend DNS records** added in Vercel DNS and the domain **Verified** in Resend (2026-10-12).
 - [x] **Kit account** created under Michael's credentials. Form `9992996` ("Join the Wisdom from the Wreckage Community") is wired in as the default `KIT_FORM_ID`. Double opt-in is on.
 - [ ] **Kit welcome email sequence**: set up the automation that follows a new signup. Scheduled for after the DNS cutover.
 - [x] **GA4**: Measurement ID `G-K7QTM4RHVL` set as `GA_MEASUREMENT_ID` (Production only, so branch previews and local dev aren't tracked) and production redeployed (2026-10-02). Still to do in GA4 admin: data retention → 14 months; mark `sign_up` and `generate_lead` as key events once they've fired.
-- [ ] **Meta Pixel**: create in Events Manager under Michael's business portfolio, set `META_PIXEL_ID` (Production), redeploy. Domain verification TXT record goes in during the Cloudflare session.
-- [ ] **DNS cutover** (below), only after Michael approves the new design. Until then, review on the `*.vercel.app` URL.
+- [ ] **Meta Pixel**: create in Events Manager under Michael's business portfolio, set `META_PIXEL_ID` (Production), redeploy. Domain verification TXT record goes in Vercel DNS.
+- [x] **Domain moved** from Name.com to Namecheap (Allen's account), nameservers pointed at Vercel DNS, and Google Workspace email records (MX, SPF, DKIM) recreated in Vercel. The site is live on Vercel; Tertulia and Cloudflare are no longer used.
+- [ ] **Move the domain to Michael's Namecheap account** after the 60-day lock. See [Handoff](#handoff-transferring-to-michael).
 - [ ] **After launch**: submit `https://mjkalous.com/sitemap-index.xml` in Google Search Console. Test the contact form, newsletter signup, and `/admin` login on the live domain. Confirm the old Tertulia post URLs redirect.
 
-## Cloudflare session with Michael
+## DNS (Vercel)
 
-Michael logs in to Cloudflare (dash.cloudflare.com, **mjkalous.com → DNS**). Do both parts in the same sitting.
+The domain is registered at Namecheap with its nameservers set to **`ns1.vercel-dns.com` / `ns2.vercel-dns.com`**, so every record is managed in Vercel → **Domains → mjkalous.com**. Namecheap's own Advanced DNS tab is ignored while those nameservers are set.
 
-**Part 1: email records for Resend (safe to do any time).**
-1. In Vercel → mjkalous project → Integrations → Resend (or resend.com → Domains → mjkalous.com), copy the DNS records it lists. Usually these are an MX and a TXT (SPF) record on a `send` subdomain, plus a TXT (DKIM) record such as `resend._domainkey`.
-2. Add each one in Cloudflare exactly as shown, with the proxy **off** (grey cloud).
-3. **Don't edit or delete the existing MX records on `@`.** Those deliver Michael's Google Workspace email. Resend's records live on their own subdomains and don't touch them.
-4. Back in Resend, click **Verify**. It can take a few minutes, occasionally longer.
-5. Send a test message from the contact page and confirm it arrives at michael@mjkalous.com.
+Records in place (checked 2026-10-12):
 
-**Part 2: point the website at Vercel (only once Michael approves the design).** Follow the next section.
-
-## DNS (Cloudflare → Vercel)
-
-The domain stays on Cloudflare nameservers. Only the two web records change.
-
-**In Vercel first (safe any time):** Project → **Settings → Domains**.
-1. `www.mjkalous.com` is already attached (added 2026-10-02). Also add **`mjkalous.com`**.
-2. Make **`mjkalous.com` the primary** and set `www.mjkalous.com` to **Redirect to mjkalous.com** (308). The site's canonical tags, sitemap, RSS, OAuth callback, and CMS config all use the bare domain.
-3. Vercel then lists the records to create.
-
-**In Cloudflare (during the session, after design approval):** replace the current Tertulia records (don't add alongside them):
-
-| Type | Name | Value | Proxy |
+| Type | Name | Value | Purpose |
 |---|---|---|---|
-| A | `@` | `216.198.79.1` (Vercel's current recommendation; the older `76.76.21.21` still works but isn't preferred) | **DNS only** (grey cloud) |
-| CNAME | `www` | the project-specific value Vercel shows (copy exactly) | **DNS only** (grey cloud) |
+| A / ALIAS | `@`, `www` | Vercel (managed automatically) | Website. `www` redirects to `mjkalous.com` |
+| MX | `@` | `aspmx.l.google.com` (10) + `alt1`–`alt4` (20–50) | Google Workspace mail delivery |
+| TXT | `@` | `v=spf1 include:_spf.google.com ~all` | SPF for Google Workspace |
+| TXT | `google._domainkey` | Google DKIM key | DKIM for Google Workspace |
+| TXT | `resend._domainkey` | Resend DKIM key | DKIM for contact-form email (Resend) |
+| MX | `send` | `feedback-smtp.us-east-1.amazonses.com` (10) | Resend bounce handling |
+| TXT | `send` | `v=spf1 include:amazonses.com ~all` | SPF for Resend |
 
-- **Grey cloud is required.** Vercel issues its own SSL certificate, and Cloudflare's proxy interferes with that.
-- **Leave MX, SPF, DKIM, and the Resend records alone.** Only `@` and `www` change.
-- **Ignore Vercel's "change nameservers" option.** It would move all DNS, including Google Workspace email and Resend records, away from Cloudflare.
-- Vercel emails when the domain verifies. Then check https://mjkalous.com loads the new site and https://www.mjkalous.com redirects to it.
+**Don't edit or delete the Google MX, SPF, or DKIM records.** They deliver Michael's email. **Don't remove the Resend records either.** Without them the contact form fails with "Your message could not be sent."
 
-Rollback: restore the previous Tertulia `A`/`CNAME` values in Cloudflare.
+If the Resend records ever need re-adding (e.g. a new Resend account), copy them from resend.com → Domains → mjkalous.com, add them in Vercel → Domains, then click **Verify** in Resend.
+
+Optional: add a DMARC record (`_dmarc` TXT, e.g. `v=DMARC1; p=none; rua=mailto:michael@mjkalous.com`). There isn't one yet.
 
 Old Tertulia blog URLs (`/blog/<slug>/<id>`) and `/books` are 301-redirected in `vercel.json`.
 
@@ -109,10 +96,11 @@ Do these in order, so the site stays up throughout.
 
 1. **GitHub repo**: Repo → Settings → *Transfer ownership* to Michael's GitHub account. Then update `repo:` in `public/admin/config.yml` to `<michael>/<repo>` and commit.
 2. **Vercel project**: Project → Settings → *Transfer project* to Michael's Vercel account or team. Reconnect the Git integration to the transferred repo if Vercel asks.
-3. **Domain**: Once the project has moved, confirm `mjkalous.com` shows as valid in Michael's Vercel project. The Cloudflare records stay the same, because Vercel's values don't change on transfer. If Vercel asks for a TXT verification record, add it in Cloudflare.
-4. **GitHub OAuth App**: Create a new OAuth App under Michael's account (same settings as in the README), or transfer the existing one (OAuth App → *Transfer ownership*).
-5. **Env vars**: In Vercel, update `OAUTH_CLIENT_ID` and `OAUTH_CLIENT_SECRET` if the app changed, then redeploy.
-6. **Contact form**: Make sure the Resend account and API key belong to Michael (or create his own, verify the domain, and swap `RESEND_API_KEY`). Confirm that mail reaches `michael@mjkalous.com`.
-7. **Analytics**: GA4: Admin → Account access management → add Michael as Administrator, then remove yourself. Meta: in Business Settings, give Michael's Business account ownership of the Pixel/dataset.
-8. **Kit**: Already Michael's account, created with his credentials. Remove your access (Settings → Team) if you were added.
-9. **Remove your access** from the repo, Vercel, Cloudflare, and Resend once Michael confirms everything works.
+3. **Domain and DNS**: DNS is hosted in Vercel, so the records travel with the domain in Vercel. After the project moves, confirm `mjkalous.com` and every DNS record (especially the Google MX/SPF/DKIM and Resend records) appear under Michael's Vercel account. If the domain stays in Allen's Vercel account, move it under Vercel → Domains → mjkalous.com → *Move*.
+4. **Registrar (Namecheap)**: After the 60-day lock from the Name.com → Namecheap transfer (roughly mid-December 2026), create a Namecheap account for Michael and use **Domain List → Sharing & Transfer → Push domain** to move `mjkalous.com` into it. Keep the nameservers set to `ns1/ns2.vercel-dns.com`. Have Michael put his own card on auto-renew (current term runs through April 29, 2028; WithheldForPrivacy through October 12, 2027). Settle up for the registration Allen paid for.
+5. **GitHub OAuth App**: Create a new OAuth App under Michael's account (same settings as in the README), or transfer the existing one (OAuth App → *Transfer ownership*).
+6. **Env vars**: In Vercel, update `OAUTH_CLIENT_ID` and `OAUTH_CLIENT_SECRET` if the app changed, then redeploy.
+7. **Contact form**: Make sure the Resend account and API key belong to Michael (or create his own, verify the domain, and swap `RESEND_API_KEY`). Confirm that mail reaches `michael@mjkalous.com`.
+8. **Analytics**: GA4: Admin → Account access management → add Michael as Administrator, then remove yourself. Meta: in Business Settings, give Michael's Business account ownership of the Pixel/dataset.
+9. **Kit**: Already Michael's account, created with his credentials. Remove your access (Settings → Team) if you were added.
+10. **Remove your access** from the repo, Vercel, Namecheap, and Resend once Michael confirms everything works.

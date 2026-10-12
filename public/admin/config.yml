@@ -45,19 +45,19 @@ collections:
         date_format: YYYY-MM-DD
         time_format: false
         picker_utc: true
-      # Keep options in sync with CATEGORIES in src/consts.ts.
+      # Choices come from the Settings → Categories list (src/data/categories.json).
       - name: categories
         label: Categories
-        widget: select
+        widget: relation
+        collection: settings
+        file: categories
+        search_fields: ['categories.*.name']
+        value_field: 'categories.*.name'
+        display_fields: ['categories.*.name']
         multiple: true
         min: 1
-        options:
-          - Spiritual Reflections
-          - Faith & Calling
-          - Healing & Recovery
-          - Relationships
-          - Introduction
-          - Uncategorized
+        options_length: 50
+        hint: 'Need a new category? Add it under Settings → Categories, then come back to this post.'
       - { name: tags, label: Tags, widget: list, required: false, hint: 'Separate tags with commas.' }
       - { name: heroImage, label: Hero Image, widget: image, required: false, choose_url: false }
       - name: heroImageAlt
@@ -76,3 +76,24 @@ collections:
         default: false
         required: false
       - { name: body, label: Post Content, widget: markdown }
+
+  - name: settings
+    label: Settings
+    delete: false
+    editor:
+      preview: false
+    files:
+      - name: categories
+        label: Categories
+        file: src/data/categories.json
+        format: json
+        fields:
+          - name: categories
+            label: Categories
+            label_singular: Category
+            widget: list
+            collapsed: false
+            summary: '{{fields.name}}'
+            hint: 'The choices in the Categories drop-down on each post. Renaming one here does not change posts that already use the old name.'
+            fields:
+              - { name: name, label: Name, widget: string }

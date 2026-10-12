@@ -41,14 +41,4 @@ export const BOOK = {
   ],
 };
 
-// Keep in sync with the `categories` options in public/admin/config.yml.
-export const CATEGORIES = [
-  'Spiritual Reflections',
-  'Faith & Calling',
-  'Healing & Recovery',
-  'Relationships',
-  'Introduction',
-  'Uncategorized',
-] as const;
-
 export const POSTS_PER_PAGE = 12;

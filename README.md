@@ -7,7 +7,8 @@ Website for Michael J. Kalous, author of *Wisdom From the Wreckage*. Built with 
 | `src/pages/` | Home, About, Blog (index, `page/N`, `category/X`, posts), Contact, Privacy, RSS, 404 |
 | `src/content/blog/` | Blog posts as Markdown (`YYYY-MM-DD-slug.md`) |
 | `src/content.config.ts` | Frontmatter schema for posts |
-| `src/consts.ts` | Site metadata, nav, social links, book + retailer links, categories |
+| `src/consts.ts` | Site metadata, nav, social links, book + retailer links |
+| `src/data/categories.json` | Category choices for the blog editor (edited in `/admin` → Settings) |
 | `src/components/` | Page sections, `NewsletterForm.tsx` (Kit), `ContactForm.tsx`, `Analytics.astro` (cookie banner + GA4/Pixel) |
 | `src/assets/` | Headshot and book cover (auto-optimized at build) |
 | `public/admin/` | Decap CMS editor (`config.yml` defines the blog fields) |
@@ -60,7 +61,7 @@ Tips: the **Excerpt** is the short summary shown on post cards and in Google res
 
 Links to other sites in a post open in a new tab automatically (`src/lib/external-links-plugin.mjs`). In page templates, give external links `target="_blank" rel="noopener"` and a `<span class="sr-only"> (opens in a new tab)</span>`.
 
-To add a category, add it to both `CATEGORIES` in `src/consts.ts` and the `categories` options in `public/admin/config.yml`.
+To add or rename a category, go to **Settings → Categories** in `/admin` (stored in `src/data/categories.json`). New categories get their own page on the site as soon as a post uses one. Renaming a category doesn't update posts that already use the old name; edit those posts too.
 
 ## Analytics & privacy
 

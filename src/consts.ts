@@ -19,7 +19,7 @@ export const NAV = [
 export const SOCIAL = [
   { name: 'Instagram', href: 'https://www.instagram.com/kalousmichael' },
   // TODO: swap for the dedicated author page once it exists (Phase 2).
-  { name: 'Facebook', href: 'https://www.facebook.com/michael.kalous.12' },
+  { name: 'Facebook', href: 'https://www.facebook.com/profile.php?id=100093438237020' },
   { name: 'LinkedIn', href: 'https://www.linkedin.com/in/michael-kalous-39463641b/' },
 ] as const;
 

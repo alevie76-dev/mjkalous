@@ -1,0 +1,212 @@
+---
+import { Image } from 'astro:assets';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Newsletter from '../components/Newsletter.astro';
+import RetailerLinks from '../components/RetailerLinks.astro';
+import VideoEmbed from '../components/VideoEmbed.astro';
+import bookCover from '../assets/book-cover.webp';
+import trailerPoster from '../assets/video-trailer.jpg';
+import { BOOK, SITE } from '../consts';
+
+const pubDate = new Date(`${BOOK.datePublished}T00:00:00Z`).toLocaleDateString('en-US', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+  timeZone: 'UTC',
+});
+
+const facts = [
+  { label: 'Author', value: SITE.name },
+  { label: 'Publisher', value: BOOK.publisher.name },
+  { label: 'Published', value: pubDate },
+  { label: 'Length', value: `${BOOK.pages} pages` },
+  { label: 'ISBN', value: BOOK.isbn },
+];
+
+const readers = [
+  'You lived through abandonment, instability, abuse, or neglect, and you are ready to understand it and heal.',
+  'Someone you love is carrying that kind of past, and you want to know how to walk alongside them.',
+  'You are working to rebuild trust and connection in a marriage, family, or friendship.',
+  'You are looking for hope rooted in faith, from someone who has walked the road himself.',
+];
+
+// Shown on the page and published as FAQPage structured data, so the two always match.
+const faqs = [
+  {
+    q: `What is ${BOOK.title} about?`,
+    a: `It is Michael J. Kalous's true story of surviving abuse, abandonment, and neglect, beginning with his birth in a car on a cold Montana morning, and of the faith and relationships that helped him heal. Along the way he shares practical tools for overcoming the past, healing the present, and building a better future.`,
+  },
+  {
+    q: 'Who is this book for?',
+    a: 'Anyone who has experienced abandonment, instability, or abuse, and anyone supporting a loved one who has. It is also for readers working to rebuild their marriages, families, and other close relationships.',
+  },
+  {
+    q: 'Is it a memoir or a self-help book?',
+    a: 'Both. It is a memoir of Michael’s own life, written by a counselor who has spent more than 25 years listening to other people’s stories, so it also offers practical tools readers can use in their own healing.',
+  },
+  {
+    q: 'Is it a faith-based book?',
+    a: 'Yes. Michael is a Christian counselor, and faith is central to his story of survival and restoration.',
+  },
+  {
+    q: 'Who is Michael J. Kalous?',
+    a: 'Michael J. Kalous is a Licensed Clinical Professional Counselor (LCPC), Christian counselor, author, and TEDx Helena speaker based in Helena, Montana. He and his wife, Kari, have been married more than 36 years and raised four children.',
+  },
+  {
+    q: 'How long is the book, and when was it published?',
+    a: `${BOOK.title} is ${BOOK.pages} pages. It was published by ${BOOK.publisher.name} on ${pubDate}.`,
+  },
+  {
+    q: 'Where can I buy it?',
+    a: `It is available from ${BOOK.retailers.map((r) => r.name).join(', ').replace(/, ([^,]*)$/, ', and $1')}, and wherever books are sold. ISBN ${BOOK.isbn}.`,
+  },
+  {
+    q: 'Can this book replace counseling?',
+    a: 'No. The book shares Michael’s story and tools that many readers find helpful, but it is not a substitute for working with a counselor or doctor. If you are in crisis in the United States, call or text 988 to reach the Suicide & Crisis Lifeline.',
+  },
+];
+
+const bookUrl = new URL('/book', Astro.site).toString();
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'Book',
+      '@id': `${SITE.url}/book#book`,
+      name: BOOK.title,
+      description: BOOK.blurb,
+      url: bookUrl,
+      image: new URL('/images/book-cover.webp', Astro.site).toString(),
+      author: { '@id': `${SITE.url}#person` },
+      publisher: { '@type': 'Organization', name: BOOK.publisher.name, url: BOOK.publisher.url },
+      datePublished: BOOK.datePublished,
+      numberOfPages: BOOK.pages,
+      isbn: BOOK.isbn,
+      inLanguage: 'en',
+      genre: ['Memoir', 'Christian living', 'Trauma recovery'],
+      sameAs: BOOK.retailers.map((r) => r.href),
+    },
+    {
+      '@type': 'FAQPage',
+      '@id': `${bookUrl}#faq`,
+      mainEntity: faqs.map(({ q, a }) => ({
+        '@type': 'Question',
+        name: q,
+        acceptedAnswer: { '@type': 'Answer', text: a },
+      })),
+    },
+  ],
+};
+---
+
+<BaseLayout
+  title={BOOK.title}
+  description={`${BOOK.title} by ${SITE.name}: a true story of surviving abuse, abandonment, and neglect, with practical, faith-rooted tools for healing from trauma and rebuilding relationships.`}
+  jsonLd={jsonLd}
+>
+  <section class="bg-gradient-to-b from-sky/60 to-paper">
+    <div class="container-site grid items-center gap-10 py-14 sm:py-20 md:grid-cols-[0.8fr_1.2fr] lg:gap-16">
+      <Image
+        src={bookCover}
+        alt={`Cover of ${BOOK.title} by ${SITE.name}: a painted sagebrush hillside under a wide cloudy sky`}
+        widths={[280, 420, 560]}
+        sizes="(min-width: 768px) 320px, 60vw"
+        loading="eager"
+        class="mx-auto w-3/5 max-w-[320px] rounded-sm shadow-xl md:w-full"
+      />
+      <div>
+        <p class="eyebrow">{BOOK.tagline.map((line) => <span class="mr-[0.6em] inline-block">{line}</span>)}</p>
+        <h1 class="mt-3 text-5xl font-medium sm:text-6xl">{BOOK.title}</h1>
+        <p class="mt-3 text-lg text-muted">A memoir by {SITE.name}</p>
+        <p class="mt-5 max-w-xl font-serif text-xl leading-relaxed italic sm:text-2xl">{BOOK.blurb}</p>
+        <div id="get-the-book" class="mt-8 scroll-mt-24">
+          <h2 class="font-sans text-base font-bold tracking-wide text-clay uppercase sm:text-lg">Get Your Copy Today! Available from...</h2>
+          <RetailerLinks />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-16 sm:py-20" aria-labelledby="about-book-heading">
+    <div class="container-site grid gap-12 md:grid-cols-[1.4fr_1fr] lg:gap-16">
+      <div>
+        <h2 id="about-book-heading" class="text-4xl font-medium">About the book</h2>
+        <div class="mt-6 space-y-5 font-serif text-[1.3rem] leading-relaxed">
+          <p>
+            Michael J. Kalous was born in a car on a cold Montana morning. What followed was a childhood marked by abuse,
+            abandonment, and neglect. <em>{BOOK.title}</em> is the true story of how he survived it, and how faith,
+            hard-won insight, and the people who loved him helped him grow into a man who cares deeply about others.
+          </p>
+          <p>
+            Michael has spent more than 25 years as a counselor, listening to people's stories. He writes not as someone
+            with all the answers, but as a guide who has walked the road himself, with practical tools for anyone ready to
+            overcome the past, heal the present, and build a better future.
+          </p>
+        </div>
+      </div>
+      <dl class="h-fit divide-y divide-line rounded-2xl border border-line bg-white px-6">
+        {
+          facts.map((f) => (
+            <div class="flex justify-between gap-4 py-3">
+              <dt class="font-semibold">{f.label}</dt>
+              <dd class="text-right text-muted">{f.value}</dd>
+            </div>
+          ))
+        }
+      </dl>
+    </div>
+  </section>
+
+  <section class="bg-sand py-16 sm:py-20" aria-labelledby="readers-heading">
+    <div class="container-site">
+      <p class="eyebrow">Who it's for</p>
+      <h2 id="readers-heading" class="mt-3 max-w-2xl text-4xl font-medium sm:text-5xl">This book is for you if...</h2>
+      <ul class="mt-10 grid gap-6 sm:grid-cols-2">
+        {readers.map((r) => <li class="rounded-2xl bg-white p-6 text-lg sm:p-8">{r}</li>)}
+      </ul>
+    </div>
+  </section>
+
+  <section class="py-16 sm:py-20" aria-labelledby="trailer-heading">
+    <div class="container-site max-w-4xl text-center">
+      <p class="eyebrow">The Story Behind the Book</p>
+      <h2 id="trailer-heading" class="mt-3 text-4xl font-medium sm:text-5xl">{BOOK.title} in 60 Seconds</h2>
+      <div class="mt-10">
+        <VideoEmbed
+          id="4jQ0dhGhMlA"
+          title={`${BOOK.title} by ${SITE.name}`}
+          poster={trailerPoster}
+          trackLabel="trailer-book-page"
+          duration="1:00"
+        />
+      </div>
+    </div>
+  </section>
+
+  <section class="border-t border-line py-16 sm:py-20" aria-labelledby="faq-heading">
+    <div class="container-site max-w-3xl">
+      <p class="eyebrow">Questions</p>
+      <h2 id="faq-heading" class="mt-3 text-4xl font-medium sm:text-5xl">Frequently asked questions</h2>
+      <div class="mt-10 divide-y divide-line border-y border-line">
+        {
+          faqs.map(({ q, a }) => (
+            <details class="group py-5">
+              <summary class="flex min-h-11 cursor-pointer list-none items-center justify-between gap-4 font-serif text-2xl">
+                {q}
+                <span aria-hidden="true" class="text-clay transition-transform group-open:rotate-45">+</span>
+              </summary>
+              <p class="mt-3 text-lg text-muted">{a}</p>
+            </details>
+          ))
+        }
+      </div>
+      <div class="mt-10 flex flex-wrap gap-3">
+        <a href="#get-the-book" class="btn btn-primary" data-track="book_cta" data-track-label="book-page-faq">Get the Book</a>
+        <a href="/about" class="btn btn-secondary">About Michael</a>
+      </div>
+    </div>
+  </section>
+
+  <Newsletter placement="book" />
+</BaseLayout>

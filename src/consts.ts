@@ -9,16 +9,36 @@ export const SITE = {
   locale: 'en_US',
 };
 
+// Facts about Michael used in the structured data (schema.org Person) on every page.
+export const AUTHOR = {
+  description:
+    'Michael J. Kalous is a Licensed Clinical Professional Counselor (LCPC), Christian counselor, author, and TEDx speaker from Helena, Montana. He writes about healing from trauma, faith, and relationships.',
+  jobTitle: 'Licensed Clinical Professional Counselor, Christian Counselor, Author',
+  license: 'Licensed Clinical Professional Counselor (LCPC)',
+  knowsAbout: [
+    'Trauma recovery',
+    'Childhood abuse and neglect',
+    'Resilience',
+    'Christian counseling',
+    'Faith and healing',
+    'Marriage and relationships',
+    'Parenting',
+  ],
+  locality: 'Helena',
+  region: 'MT',
+  country: 'US',
+};
+
 export const NAV = [
   { href: '/', label: 'Home' },
   { href: '/about', label: 'About' },
+  { href: '/book', label: 'The Book' },
   { href: '/blog', label: 'Blog' },
   { href: '/contact', label: 'Contact' },
 ];
 
 export const SOCIAL = [
   { name: 'Instagram', href: 'https://www.instagram.com/kalousmichael' },
-  // TODO: swap for the dedicated author page once it exists (Phase 2).
   { name: 'Facebook', href: 'https://www.facebook.com/profile.php?id=100093438237020' },
   { name: 'LinkedIn', href: 'https://www.linkedin.com/in/michael-kalous-39463641b/' },
 ] as const;
@@ -32,6 +52,9 @@ export const BOOK = {
   blurb:
     'A powerful true story of survival, faith, and restoration—offering hope to anyone navigating the pain of the past and reaching for a better tomorrow.',
   isbn: '9798899220968',
+  publisher: { name: 'Page Publishing', url: 'https://pagepublishing.com' },
+  datePublished: '2026-04-24',
+  pages: 200,
   retailers: [
     { name: 'Amazon', href: 'https://www.amazon.com/dp/B0GVPYY6GX' },
     { name: 'Barnes & Noble', href: 'https://www.barnesandnoble.com/s/9798899220968' },

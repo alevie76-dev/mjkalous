@@ -10,7 +10,7 @@
     { "source": "/blog/fear/v9v4tw", "destination": "/blog/fear", "permanent": true },
     { "source": "/blog/reborn/qtr26k", "destination": "/blog/reborn", "permanent": true },
     { "source": "/blog/:date(\\d{4}-\\d{2}-\\d{2})-:slug", "destination": "/blog/:slug", "permanent": false },
-    { "source": "/books", "destination": "/#book", "permanent": true }
+    { "source": "/books", "destination": "/book", "permanent": true }
   ],
   "headers": [
     {

@@ -1,0 +1,16 @@
+---
+import { BOOK } from '../consts';
+---
+
+<ul class="mt-3 flex flex-wrap gap-3">
+  {
+    BOOK.retailers.map((r) => (
+      <li>
+        <a href={r.href} class="btn btn-secondary" data-track="book_click" data-track-label={r.name} target="_blank" rel="noopener">
+          {r.name}
+          <span class="sr-only"> (opens in a new tab)</span>
+        </a>
+      </li>
+    ))
+  }
+</ul>

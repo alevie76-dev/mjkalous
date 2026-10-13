@@ -1,0 +1,139 @@
+---
+import { Image } from 'astro:assets';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SpeakingForm from '../components/SpeakingForm.tsx';
+import VideoEmbed from '../components/VideoEmbed.astro';
+import tedxPoster from '../assets/video-tedx.jpg';
+import readerhousePoster from '../assets/video-readerhouse.jpg';
+import headshot from '../assets/michael-kalous-headshot.png';
+import { BOOK, SITE, SPEAKING_TOPICS } from '../consts';
+
+const audiences = [
+  'Churches and faith communities',
+  'Schools, educators, and parent groups',
+  'Counseling, social-service, and child-welfare organizations',
+  'Libraries, bookstores, and book clubs',
+  'Community groups and conferences',
+  'Podcasts, radio, and other interviews',
+];
+---
+
+<BaseLayout
+  title="Speaking"
+  description={`Invite ${SITE.name}, Licensed Clinical Professional Counselor, TEDx Helena speaker, and author of ${BOOK.title}, to speak about hope, resilience, faith, and healing from trauma.`}
+>
+  <section class="bg-gradient-to-b from-sky/60 to-paper">
+    <div class="container-site grid items-center gap-8 py-14 sm:py-20 md:grid-cols-[1fr_auto] md:gap-12">
+      <Image
+        src={headshot}
+        alt="Michael J. Kalous in a gray hat and denim shirt, smiling outdoors in front of autumn trees"
+        widths={[160, 240, 305]}
+        sizes="(min-width: 768px) 240px, 160px"
+        loading="eager"
+        class="w-40 rounded-2xl shadow-lg md:order-last md:w-60"
+      />
+      <div>
+        <p class="eyebrow">Speaking</p>
+        <h1 class="mt-3 max-w-3xl text-5xl font-medium sm:text-6xl">Invite Michael to Speak</h1>
+        <p class="mt-5 max-w-2xl text-lg text-ink/80 sm:text-xl">
+          Michael J. Kalous is a Licensed Clinical Professional Counselor, a TEDx Helena speaker, and the author of <em>{BOOK.title}</em>.
+          He speaks from his own story of surviving abuse, abandonment, and neglect, and from more
+          than 25 years of listening to other people's stories, about hope, resilience, faith, and the work of healing.
+        </p>
+        <a href="#request" class="btn btn-primary mt-8" data-track="speaking_cta" data-track-label="hero">Request Michael to Speak</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="pb-16 sm:pb-24" aria-labelledby="tedx-heading">
+    <div class="container-site">
+      <p class="eyebrow">TEDx Helena</p>
+      <h2 id="tedx-heading" class="mt-3 text-4xl font-medium sm:text-5xl">The Building of Hope and Resilience in a Child</h2>
+      <p class="mt-4 text-lg text-muted">
+        Michael's TEDx talk on how children survive hard beginnings, and what helps them grow into hope.
+      </p>
+      <div class="mt-8 max-w-4xl">
+        <VideoEmbed
+          id="w3mWLQqn0JI"
+          title="The Building Of Hope And Resilience In A Child | Michael Kalous | TEDxHelena"
+          poster={tedxPoster}
+          trackLabel="tedx-speaking"
+          duration="10:52"
+        />
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-sand py-16 sm:py-24" aria-labelledby="topics-heading">
+    <div class="container-site">
+      <p class="eyebrow">Topics</p>
+      <h2 id="topics-heading" class="mt-3 max-w-2xl text-4xl font-medium sm:text-5xl">What Michael speaks about</h2>
+      <dl class="mt-10 grid gap-6 sm:grid-cols-2">
+        {
+          SPEAKING_TOPICS.map((t) => (
+            <div class="rounded-2xl bg-white p-6 sm:p-8">
+              <dt class="font-serif text-2xl">{t.title}</dt>
+              <dd class="mt-2 text-muted">{t.body}</dd>
+            </div>
+          ))
+        }
+      </dl>
+      <p class="mt-8 text-muted">Each talk can be shaped as a keynote, a workshop, a book talk, or a conversation, in person or online.</p>
+    </div>
+  </section>
+
+  <section class="py-16 sm:py-24" aria-labelledby="audiences-heading">
+    <div class="container-site grid gap-12 md:grid-cols-2 lg:gap-16">
+      <div>
+        <p class="eyebrow">Audiences</p>
+        <h2 id="audiences-heading" class="mt-3 text-4xl font-medium">Who Michael speaks to</h2>
+        <ul class="mt-6 space-y-3 text-lg">
+          {
+            audiences.map((a) => (
+              <li class="flex gap-3">
+                <span aria-hidden="true" class="mt-2.5 size-2 shrink-0 rounded-full bg-clay" />
+                {a}
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+      <div>
+        <p class="eyebrow">Interviews</p>
+        <h2 id="interviews-heading" class="mt-3 text-4xl font-medium">ReaderHouse Author Roundtable</h2>
+        <p class="mt-4 text-muted">
+          Aired July 18, 2026. Michael talks with the host about his experiences and his first published book, <em>{BOOK.title}</em>.
+          The player starts at Michael's segment (21:56).
+        </p>
+        <div class="mt-6">
+          <VideoEmbed
+            id="NiztU2zL9LE"
+            start={1316}
+            title="ReaderHouse Author Roundtable: Aired 07/18/2026, with Michael J. Kalous"
+            poster={readerhousePoster}
+            trackLabel="readerhouse"
+          />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="request" class="scroll-mt-16 bg-gradient-to-b from-paper to-sky/40 py-16 sm:py-24" aria-labelledby="request-heading">
+    <div class="container-site grid gap-12 lg:grid-cols-[1fr_1.4fr] lg:gap-20">
+      <div>
+        <p class="eyebrow">Booking</p>
+        <h2 id="request-heading" class="mt-3 text-4xl font-medium sm:text-5xl">Request Michael for your event</h2>
+        <p class="mt-5 text-lg text-muted">
+          Share a few details about your event and Michael will get back to you personally. Dates and details don't need
+          to be final.
+        </p>
+        <p class="mt-8 text-muted">
+          Prefer email? Write to <a href={`mailto:${SITE.email}`}>{SITE.email}</a>.
+        </p>
+      </div>
+      <div class="rounded-2xl border border-line bg-white p-6 shadow-sm sm:p-8">
+        <SpeakingForm client:visible />
+      </div>
+    </div>
+  </section>
+</BaseLayout>

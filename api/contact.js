@@ -1,6 +1,18 @@
-// Contact form → email to Michael via Resend (https://resend.com/docs/api-reference/emails/send-email).
+// Contact and speaking-request forms → email to Michael via Resend (https://resend.com/docs/api-reference/emails/send-email).
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 const LIMITS = { name: 100, email: 200, message: 5000 };
+
+// Extra fields sent by the speaking-request form (`form: 'speaking'`): [key, label, max length].
+const SPEAKING_FIELDS = [
+  ['organization', 'Organization', 200],
+  ['phone', 'Phone', 50],
+  ['eventDate', 'Event date', 100],
+  ['location', 'Location', 200],
+  ['format', 'Format', 50],
+  ['audience', 'Audience', 300],
+  ['topic', 'Topic', 300],
+  ['budget', 'Honorarium / budget', 200],
+];
 
 const escapeHtml = (s) =>
   s.replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
@@ -19,13 +31,24 @@ export default async function handler(req, res) {
   const name = String(body.name ?? '').trim();
   const email = String(body.email ?? '').trim();
   const message = String(body.message ?? '').trim();
+  const speaking = body.form === 'speaking';
+  const details = speaking
+    ? SPEAKING_FIELDS.map(([key, label, max]) => ({ label, max, value: String(body[key] ?? '').trim() }))
+    : [];
+  const organization = details.find((d) => d.label === 'Organization')?.value ?? '';
 
   // Honeypot filled in: pretend success so bots don't retry.
   if (body.website) return res.status(200).json({ ok: true });
 
   if (!name || !email || !message) return res.status(400).json({ error: 'Please fill in your name, email, and message.' });
+  if (speaking && !organization) return res.status(400).json({ error: 'Please tell us your organization.' });
   if (!EMAIL_RE.test(email)) return res.status(400).json({ error: 'Please enter a valid email address.' });
-  if (name.length > LIMITS.name || email.length > LIMITS.email || message.length > LIMITS.message) {
+  if (
+    name.length > LIMITS.name ||
+    email.length > LIMITS.email ||
+    message.length > LIMITS.message ||
+    details.some((d) => d.value.length > d.max)
+  ) {
     return res.status(400).json({ error: 'That message is a little too long. Please shorten it and try again.' });
   }
 
@@ -43,6 +66,14 @@ export default async function handler(req, res) {
     process.env.CONTACT_FROM_EMAIL ||
     (domain ? `Website Contact Form <contact@${domain}>` : 'Website Contact Form <onboarding@resend.dev>');
 
+  const filled = details.filter((d) => d.value);
+  const subject = speaking
+    ? `Speaking request from ${name}${organization ? ` (${organization})` : ''} via mjkalous.com`
+    : `New message from ${name} via mjkalous.com`;
+  const formName = speaking ? 'speaking request form' : 'contact form';
+  const detailsText = filled.map((d) => `${d.label}: ${d.value}\n`).join('');
+  const detailsHtml = filled.map((d) => `<br><strong>${d.label}:</strong> ${escapeHtml(d.value)}`).join('');
+
   try {
     const r = await fetch('https://api.resend.com/emails', {
       method: 'POST',
@@ -51,11 +82,11 @@ export default async function handler(req, res) {
         from,
         to: [to],
         reply_to: email,
-        subject: oneLine(`New message from ${name} via mjkalous.com`),
-        text: `Name: ${name}\nEmail: ${email}\n\n${message}\n\n— Sent from the contact form on mjkalous.com. Reply to this email to respond.`,
-        html: `<p><strong>Name:</strong> ${escapeHtml(name)}<br><strong>Email:</strong> ${escapeHtml(email)}</p>
+        subject: oneLine(subject),
+        text: `Name: ${name}\nEmail: ${email}\n${detailsText}\n${message}\n\n— Sent from the ${formName} on mjkalous.com. Reply to this email to respond.`,
+        html: `<p><strong>Name:</strong> ${escapeHtml(name)}<br><strong>Email:</strong> ${escapeHtml(email)}${detailsHtml}</p>
 <p style="white-space:pre-wrap">${escapeHtml(message)}</p>
-<hr><p style="color:#777;font-size:13px">Sent from the contact form on mjkalous.com. Reply to this email to respond.</p>`,
+<hr><p style="color:#777;font-size:13px">Sent from the ${formName} on mjkalous.com. Reply to this email to respond.</p>`,
       }),
     });
     if (!r.ok) {

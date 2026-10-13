@@ -33,6 +33,7 @@ export const NAV = [
   { href: '/', label: 'Home' },
   { href: '/about', label: 'About' },
   { href: '/book', label: 'The Book' },
+  { href: '/speaking', label: 'Speaking' },
   { href: '/blog', label: 'Blog' },
   { href: '/contact', label: 'Contact' },
 ];
@@ -63,5 +64,25 @@ export const BOOK = {
     { name: 'Tertulia', href: 'https://tertulia.com/book/9798899220968' },
   ],
 };
+
+// Talks Michael offers, shown on /speaking and in the request form's Topic menu.
+export const SPEAKING_TOPICS = [
+  {
+    title: 'The Building of Hope and Resilience in a Child',
+    body: 'How children survive hard beginnings, and what the adults around them can do to help them grow into hope. The subject of Michael’s TEDx Helena talk.',
+  },
+  {
+    title: 'Wisdom From the Wreckage',
+    body: 'Michael’s own story of surviving abuse, abandonment, and neglect, and the practical tools for healing he shares in his book.',
+  },
+  {
+    title: 'Faith and Healing from Trauma',
+    body: 'How faith can carry a person through the long work of recovery, from a Christian counselor who has walked the road himself.',
+  },
+  {
+    title: 'Building Stable, Connected Relationships',
+    body: 'What more than 36 years of marriage and 25 years of counseling have taught Michael about trust, connection, and repair.',
+  },
+];
 
 export const POSTS_PER_PAGE = 12;

@@ -12,7 +12,7 @@ export const SITE = {
 // Facts about Michael used in the structured data (schema.org Person) on every page.
 export const AUTHOR = {
   description:
-    'Michael J. Kalous is a Licensed Clinical Professional Counselor (LCPC), Christian counselor, author, and TEDx speaker from Helena, Montana. He writes about healing from trauma, faith, and relationships.',
+    'Michael J. Kalous is a Licensed Clinical Professional Counselor (LCPC), Christian counselor, founder of Sage Life Counseling, author, and TEDx speaker from Helena, Montana. He writes about healing from trauma, faith, and relationships.',
   jobTitle: 'Licensed Clinical Professional Counselor, Christian Counselor, Author',
   license: 'Licensed Clinical Professional Counselor (LCPC)',
   knowsAbout: [
@@ -27,6 +27,13 @@ export const AUTHOR = {
   locality: 'Helena',
   region: 'MT',
   country: 'US',
+  // The practice has no website yet, so link its Google Business Profile.
+  practice: {
+    name: 'Sage Life Counseling',
+    founded: '2015',
+    url: 'https://maps.google.com/?cid=14256807935957276654',
+  },
+  quote: 'Healing is rooted in the restoration of relationships—with ourselves, with others, and with God.',
 };
 
 export const NAV = [
@@ -81,7 +88,7 @@ export const SPEAKING_TOPICS = [
   },
   {
     title: 'Building Stable, Connected Relationships',
-    body: 'What more than 36 years of marriage and 25 years of counseling have taught Michael about trust, connection, and repair.',
+    body: 'How couples rebuild safety, trust, and communication, and how families restore connection, drawn from more than 36 years of marriage and 25 years of counseling.',
   },
 ];
 

@@ -41,6 +41,13 @@ const personLd = {
     name: AUTHOR.license,
   },
   knowsAbout: AUTHOR.knowsAbout,
+  worksFor: {
+    '@type': 'Organization',
+    name: AUTHOR.practice.name,
+    url: AUTHOR.practice.url,
+    foundingDate: AUTHOR.practice.founded,
+    founder: { '@id': `${SITE.url}#person` },
+  },
   address: {
     '@type': 'PostalAddress',
     addressLocality: AUTHOR.locality,

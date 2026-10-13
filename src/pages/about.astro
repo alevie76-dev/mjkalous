@@ -3,14 +3,14 @@ import { Image } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Newsletter from '../components/Newsletter.astro';
 import portrait from '../assets/michael-kalous.png';
-import { BOOK } from '../consts';
+import { AUTHOR, BOOK } from '../consts';
 import VideoEmbed from '../components/VideoEmbed.astro';
 import tedxPoster from '../assets/video-tedx.jpg';
 
 const offers = [
   {
     title: 'Credentials',
-    body: 'Licensed Clinical Professional Counselor and Christian counselor. Also a poet and philosopher at heart.',
+    body: 'Licensed Clinical Professional Counselor, Christian counselor, and founder of Sage Life Counseling. Also a poet and philosopher at heart.',
   },
   {
     title: 'Experience',
@@ -56,6 +56,21 @@ const offers = [
             Having survived being born on a cold Montana morning in a car, overcoming abuse, abandonment, and neglect, I
             have gained great insight into myself, which has helped me learn, change, and grow into a man who cares deeply
             about others. I am passionate about the importance of stable, fulfilling, and connected relationships.
+          </p>
+          <p>
+            My personal journey of survival and healing became more than a story of my own restoration—it became a
+            lifelong calling to help others discover hope and healing in their own stories. For more than 25 years, I have
+            had the privilege of walking alongside individuals and families in my roles as a Family Health Advocate, a
+            Licensed Clinical Professional Counselor (LCPC), and Christian Counselor. In 2015, I founded <a href={AUTHOR.practice.url} target="_blank" rel="noopener">Sage Life Counseling<span class="sr-only"> (opens in a new tab)</span></a> out
+            of a desire to help others experience the same kind of transformation that has shaped my own life.
+          </p>
+          <p>
+            Whether guiding individuals through the healing of trauma, helping couples rebuild safety, trust, and
+            communication, or supporting families in restoring connection, I draw on my clinical expertise, professional
+            experience, and the wisdom gained through my own journey. I believe that healing is rooted in the restoration
+            of relationships—with ourselves, with others, and with God. These connections are not merely part of a
+            flourishing life; they are foundational to it. My passion is to help people move beyond surviving toward a life
+            marked by healing, meaningful connection, renewed purpose, and hope.
           </p>
           <p>
             My wife, Kari, and I have been working on ours for over 36 years. She has helped me immensely in understanding

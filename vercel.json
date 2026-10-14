@@ -12,6 +12,7 @@
     { "source": "/blog/:date(\\d{4}-\\d{2}-\\d{2})-:slug", "destination": "/blog/:slug", "permanent": false },
     { "source": "/books", "destination": "/book", "permanent": true }
   ],
+  "rewrites": [{ "source": "/sitemap.xml", "destination": "/sitemap-index.xml" }],
   "headers": [
     {
       "source": "/(.*)",

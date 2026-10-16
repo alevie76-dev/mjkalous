@@ -12,6 +12,7 @@ import { BOOK } from '../consts';
     alt=""
     widths={[768, 1280, 1920, 2234]}
     sizes="100vw"
+    quality={70}
     loading="eager"
     fetchpriority="high"
     class="absolute inset-0 -z-20 h-full w-full object-cover object-[60%_30%]"
@@ -43,7 +44,7 @@ import { BOOK } from '../consts';
       </p>
       <div class="mt-8 flex flex-wrap gap-3">
         <a href="#get-the-book" class="btn btn-primary" data-track="book_cta" data-track-label="hero">Get the Book</a>
-        <a href="/about" class="btn btn-secondary bg-paper/70 backdrop-blur-sm">Learn More</a>
+        <a href="/about" class="btn btn-secondary bg-paper/70 backdrop-blur-sm">Meet Michael</a>
       </div>
     </div>
 
@@ -55,6 +56,7 @@ import { BOOK } from '../consts';
           alt={`Cover of ${BOOK.title} by Michael J. Kalous: a painted sagebrush hillside under a wide cloudy sky`}
           widths={[320, 480, 640]}
           sizes="(min-width: 1024px) 320px, 256px"
+          quality={70}
           loading="eager"
           class="block w-full"
         />

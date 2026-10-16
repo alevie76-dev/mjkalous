@@ -9,6 +9,8 @@ import { externalLinks } from './src/lib/external-links-plugin.mjs';
 export default defineConfig({
   site: 'https://mjkalous.com',
   output: 'static',
+  // Inline the (small) site CSS so it doesn't block first render on mobile.
+  build: { inlineStylesheets: 'always' },
   trailingSlash: 'ignore',
   markdown: {
     processor: satteri({ hastPlugins: [externalLinks] }),

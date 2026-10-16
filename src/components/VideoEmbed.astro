@@ -21,7 +21,7 @@ const { id, title, poster, trackLabel, duration, start } = Astro.props;
 
 <div class="video-embed relative aspect-video overflow-hidden rounded-2xl bg-ink shadow-lg" data-video-id={id} data-video-title={title} data-video-start={start}>
   <button type="button" data-track="video_play" data-track-label={trackLabel} class="group absolute inset-0 h-full w-full cursor-pointer">
-    <Image src={poster} alt="" widths={[480, 800, 1280]} sizes="(min-width: 1024px) 800px, 100vw" class="h-full w-full object-cover" />
+    <Image src={poster} alt="" widths={[480, 800, 1280]} sizes="(min-width: 1024px) 800px, 100vw" quality={70} class="h-full w-full object-cover" />
     <span class="absolute inset-0 bg-ink/20 transition-colors group-hover:bg-ink/10"></span>
     <span class="absolute top-1/2 left-1/2 flex h-18 w-18 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-clay text-white shadow-xl transition-transform group-hover:scale-110 sm:h-22 sm:w-22">
       <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="ml-1 h-8 w-8 sm:h-10 sm:w-10"><path d="M8 5.14v13.72a1 1 0 0 0 1.5.86l11-6.86a1 1 0 0 0 0-1.72l-11-6.86A1 1 0 0 0 8 5.14Z"></path></svg>

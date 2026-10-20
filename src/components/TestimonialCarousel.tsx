@@ -129,13 +129,13 @@ export default function TestimonialCarousel({ testimonials, interval = 5000 }: P
                 active ? 'opacity-100' : 'pointer-events-none opacity-0'
               }`}
             >
-              <span aria-hidden="true" className="font-serif text-7xl leading-none text-gold/70 select-none lg:text-8xl">
-                &ldquo;
-              </span>
-              <blockquote className="-mt-4 max-w-3xl font-serif text-lg leading-relaxed font-medium text-ink sm:text-xl lg:-mt-6 lg:text-2xl">
+              <blockquote className="max-w-3xl font-serif text-lg leading-relaxed font-medium text-ink sm:text-xl lg:text-2xl">
                 <p>
+                  <span aria-hidden="true" className="mr-1 relative top-[0.3em] font-serif text-[2em] leading-[0] text-gold/70 select-none">
+                    &ldquo;
+                  </span>
                   {t.quote}
-                  <span aria-hidden="true" className="ml-1 inline-block align-[-0.35em] font-serif text-[2em] leading-none text-gold/70 select-none">
+                  <span aria-hidden="true" className="ml-1 relative top-[0.3em] font-serif text-[2em] leading-[0] text-gold/70 select-none">
                     &rdquo;
                   </span>
                 </p>

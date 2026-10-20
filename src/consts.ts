@@ -47,7 +47,7 @@ export const NAV = [
 
 export const SOCIAL = [
   { name: 'Instagram', href: 'https://www.instagram.com/kalousmichael' },
-  { name: 'Facebook', href: 'https://www.facebook.com/profile.php?id=100093438237020' },
+  { name: 'Facebook', href: 'https://www.facebook.com/michael.kalous.author' },
   { name: 'LinkedIn', href: 'https://www.linkedin.com/in/michael-kalous-39463641b/' },
 ] as const;
 

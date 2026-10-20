@@ -98,8 +98,10 @@ export default function TestimonialCarousel({ testimonials, interval = 5000 }: P
       aria-roledescription="carousel"
       aria-label="Reader reviews"
       onKeyDown={onKeyDown}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
+      // Mouse only: iOS fires a synthetic mouseenter on tap and never the matching leave,
+      // which would leave the carousel paused for good.
+      onPointerEnter={(e) => e.pointerType === 'mouse' && setHovered(true)}
+      onPointerLeave={(e) => e.pointerType === 'mouse' && setHovered(false)}
       onFocus={() => setFocused(true)}
       onBlur={(e) => {
         if (!e.currentTarget.contains(e.relatedTarget as Node | null)) setFocused(false);
@@ -131,7 +133,12 @@ export default function TestimonialCarousel({ testimonials, interval = 5000 }: P
                 &ldquo;
               </span>
               <blockquote className="-mt-4 max-w-3xl font-serif text-lg leading-relaxed font-medium text-ink sm:text-xl lg:-mt-6 lg:text-2xl">
-                <p>{t.quote}</p>
+                <p>
+                  {t.quote}
+                  <span aria-hidden="true" className="ml-1 inline-block align-[-0.35em] font-serif text-[2em] leading-none text-gold/70 select-none">
+                    &rdquo;
+                  </span>
+                </p>
               </blockquote>
               <div className="mt-6">
                 <Stars />

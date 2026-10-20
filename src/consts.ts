@@ -93,3 +93,32 @@ export const SPEAKING_TOPICS = [
 ];
 
 export const POSTS_PER_PAGE = 12;
+
+// Reader reviews for the homepage carousel, attributed by initials only.
+export const TESTIMONIALS = [
+  {
+    quote:
+      'Wisdom from the Wreckage is both a story of overcoming adversity and a practical guide for others who may be working through challenges of their own. Michael’s experiences give credibility to the lessons he shares, while his counseling background helps turn those lessons into useful guidance.',
+    attribution: 'P.A.',
+  },
+  {
+    quote:
+      'The book speaks directly to people who have struggled with relationships, marriage, parenting, or simply trying to feel whole after painful experiences… Rather than suggesting that overcoming trauma is easy, the author recognizes how deeply past wounds can affect us.',
+    attribution: 'S.',
+  },
+  {
+    quote:
+      'Wisdom From the Wreckage is one of those rare books that truly stays with you… honest, raw, and incredibly relatable… uplifting without being cliché, and motivating without feeling forced.',
+    attribution: 'A.P.',
+  },
+  {
+    quote:
+      'Even the deepest wounds do not have to define the rest of your life… By the final chapter, I walked away feeling encouraged that healing is possible, even after a lifetime of hardship.',
+    attribution: 'D.E.',
+  },
+  {
+    quote:
+      'Rather than offering unrealistic promises or quick fixes, Kalous shares thoughtful insights about perseverance, resilience, and finding purpose through adversity. Wisdom From the Wreckage is well worth reading.',
+    attribution: 'S.R.',
+  },
+];

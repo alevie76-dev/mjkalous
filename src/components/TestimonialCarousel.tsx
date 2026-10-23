@@ -118,7 +118,7 @@ export default function TestimonialCarousel({ testimonials, interval = 5000 }: P
         {testimonials.map((t, i) => {
           const active = i === index;
           return (
-            <figure
+            <div
               key={i}
               role="group"
               aria-roledescription="slide"
@@ -143,10 +143,10 @@ export default function TestimonialCarousel({ testimonials, interval = 5000 }: P
               <div className="mt-6">
                 <Stars />
               </div>
-              <figcaption className="mt-3 text-sm font-semibold tracking-[0.14em] text-muted uppercase">
+              <p className="mt-3 text-sm font-semibold tracking-[0.14em] text-muted uppercase">
                 &mdash; {t.attribution}
-              </figcaption>
-            </figure>
+              </p>
+            </div>
           );
         })}
       </div>

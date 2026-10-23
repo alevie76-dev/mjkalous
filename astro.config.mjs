@@ -11,7 +11,8 @@ export default defineConfig({
   output: 'static',
   // Inline the (small) site CSS so it doesn't block first render on mobile.
   build: { inlineStylesheets: 'always' },
-  trailingSlash: 'ignore',
+  // Match Vercel's URLs so sitemap entries do not redirect.
+  trailingSlash: 'never',
   markdown: {
     processor: satteri({ hastPlugins: [externalLinks] }),
   },

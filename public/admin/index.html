@@ -26,6 +26,14 @@
         },
       });
       CMS.registerPreviewStyle('/admin/preview.css');
+      // The default relation preview renders multiple values without separators.
+      var relationWidget = CMS.getWidget('relation');
+      CMS.registerWidget('relation', relationWidget.control, function (props) {
+        var value = props.value;
+        return Array.isArray(value) || (value && typeof value.join === 'function')
+          ? value.join(', ')
+          : value || null;
+      }, relationWidget.schema);
     </script>
   </body>
 </html>

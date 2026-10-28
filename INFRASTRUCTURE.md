@@ -15,6 +15,7 @@ How mjkalous.com is wired together, and how to hand it to Michael.
 | Kit | Newsletter | Michael (account under his credentials) | kit.com |
 | Google Analytics 4 | Traffic analytics | TBD | analytics.google.com |
 | Meta Pixel | Facebook/Instagram conversion tracking | TBD | Meta Events Manager |
+| Google Search Console | Search indexing and performance | Michael | search.google.com/search-console |
 | Google Workspace | `michael@mjkalous.com` inbox, plus the `contact@mjkalous.com` alias | Michael | admin.google.com |
 
 ## Email addresses

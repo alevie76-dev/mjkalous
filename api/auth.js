@@ -1,7 +1,12 @@
 // Step 1 of the Decap CMS GitHub login: send the editor to GitHub with a signed, expiring `state`.
-import { createState, siteOrigin, STATE_COOKIE, STATE_MAX_AGE_MS } from './_utils.js';
+import { createState, siteOrigin, requestOrigin, STATE_COOKIE, STATE_MAX_AGE_MS } from './_utils.js';
 
 export default function handler(req, res) {
+  res.setHeader('Cache-Control', 'no-store');
+  // Start on the callback's host so its host-only state cookie survives the round trip.
+  if (requestOrigin(req) !== siteOrigin(req)) {
+    return res.redirect(302, `${siteOrigin(req)}/api/auth`);
+  }
   const clientId = process.env.OAUTH_CLIENT_ID;
   if (!clientId || !process.env.OAUTH_CLIENT_SECRET) {
     res.status(500).send('GitHub login is not configured (OAUTH_CLIENT_ID / OAUTH_CLIENT_SECRET).');

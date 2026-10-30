@@ -6,6 +6,12 @@
     <meta name="robots" content="noindex, nofollow" />
     <title>Content Manager | Michael J. Kalous</title>
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <script>
+      // OAuth callbacks and the Decap popup handshake must use the same origin.
+      if (!['localhost', '127.0.0.1'].includes(location.hostname) && location.origin !== 'https://mjkalous.com') {
+        location.replace('https://mjkalous.com/admin' + location.search + location.hash);
+      }
+    </script>
     <!-- Absolute path: Vercel serves this page at /admin (no trailing slash), where a relative "config.yml" would miss. -->
     <link href="/admin/config.yml" type="text/yaml" rel="cms-config-url" />
   </head>

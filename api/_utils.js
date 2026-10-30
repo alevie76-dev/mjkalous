@@ -52,7 +52,10 @@ export function readCookie(req, name) {
 
 /** Public origin of this deployment, e.g. https://mjkalous.com */
 export function siteOrigin(req) {
-  if (process.env.SITE_URL) return process.env.SITE_URL.replace(/\/$/, '');
+  return new URL(process.env.SITE_URL || 'https://mjkalous.com').origin;
+}
+
+export function requestOrigin(req) {
   const proto = req.headers['x-forwarded-proto'] || 'https';
   return `${proto}://${req.headers['x-forwarded-host'] || req.headers.host}`;
 }

@@ -35,7 +35,7 @@ npm run build && npm run preview
 |---|---|---|
 | `OAUTH_CLIENT_ID`, `OAUTH_CLIENT_SECRET` | `/api/auth`, `/api/callback` | GitHub OAuth App (see below) |
 | `OAUTH_STATE_SECRET` | OAuth | Optional; signs the login `state`. Defaults to the client secret |
-| `SITE_URL` | OAuth | Optional; forces the callback origin (default: request host) |
+| `SITE_URL` | OAuth | Optional; overrides the callback origin (default: `https://mjkalous.com`) |
 | `RESEND_API_KEY` | `/api/contact` | Set by the Vercel Resend integration |
 | `RESEND_EMAIL_DOMAIN` | `/api/contact` | Set by the integration. The form sends as `contact@<domain>` |
 | `CONTACT_FROM_EMAIL` | `/api/contact` | Optional. Overrides the sender, e.g. `Website Contact Form <contact@mjkalous.com>` |
@@ -104,7 +104,7 @@ For the current DNS records, see [INFRASTRUCTURE.md](INFRASTRUCTURE.md#dns-verce
 
 How it works: `/api/auth` redirects to GitHub with a `state` value made of a random nonce, a timestamp, and an HMAC-SHA256 signature. The nonce is also stored in an HttpOnly cookie. `/api/callback` checks the signature in constant time, rejects anything older than 10 minutes or whose cookie doesn't match, exchanges the code for a token, and passes it to the `/admin` window using Decap's `postMessage` handshake, locked to the site's own origin.
 
-Login only works on the domain registered as the callback URL, so it won't work on Vercel preview URLs.
+The editor redirects alternate domains and Vercel preview URLs to `https://mjkalous.com/admin` before login. The auth endpoint also redirects to the configured origin before setting the state cookie. Keep the GitHub OAuth App callback set to `https://mjkalous.com/api/callback` and `SITE_URL` unset or set to `https://mjkalous.com`. If changing the editor domain, update the canonical redirect in `public/admin/index.html` as well.
 
 ## Handoff
 

@@ -36,12 +36,20 @@ export const AUTHOR = {
   quote: 'Healing is rooted in the restoration of relationships—with ourselves, with others, and with God.',
 };
 
-export const NAV = [
+// Items with `children` render as a dropdown on desktop and a labeled group on mobile.
+export const NAV: { href: string; label: string; children?: { href: string; label: string }[] }[] = [
   { href: '/', label: 'Home' },
   { href: '/about', label: 'About' },
   { href: '/book', label: 'The Book' },
   { href: '/speaking', label: 'Speaking' },
-  { href: '/blog', label: 'Blog' },
+  {
+    href: '/blog',
+    label: 'Writing',
+    children: [
+      { href: '/blog', label: 'Blog' },
+      { href: '/newsletter', label: 'Newsletter' },
+    ],
+  },
   { href: '/contact', label: 'Contact' },
 ];
 

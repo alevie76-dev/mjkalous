@@ -5,7 +5,7 @@ import NewsletterForm from './NewsletterForm.tsx';
 import bookCover from '../assets/book-cover.webp';
 
 // Pages where interrupting the visitor would get in the way.
-const SKIP = ['/contact', '/privacy'];
+const SKIP = ['/contact', '/privacy', '/newsletter'];
 const path = Astro.url.pathname.replace(/\/$/, '') || '/';
 const enabled = !SKIP.includes(path);
 ---

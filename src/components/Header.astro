@@ -3,6 +3,7 @@ import { NAV, SITE } from '../consts';
 
 const path = Astro.url.pathname.replace(/\/$/, '') || '/';
 const isActive = (href: string) => (href === '/' ? path === '/' : path === href || path.startsWith(`${href}/`));
+const isGroupActive = (item: (typeof NAV)[number]) => item.children?.some((child) => isActive(child.href)) ?? false;
 ---
 
 <header class="sticky top-0 z-40 border-b border-line/70 bg-paper/90 backdrop-blur">
@@ -12,17 +13,53 @@ const isActive = (href: string) => (href === '/' ? path === '/' : path === href 
     <nav aria-label="Main" class="hidden lg:block">
       <ul class="flex items-center gap-1">
         {
-          NAV.map((item) => (
-            <li>
-              <a
-                href={item.href}
-                aria-current={isActive(item.href) ? 'page' : undefined}
-                class="inline-flex min-h-11 items-center rounded-full px-3 font-medium whitespace-nowrap xl:px-4 text-ink no-underline hover:bg-sand aria-[current=page]:text-clay"
-              >
-                {item.label}
-              </a>
-            </li>
-          ))
+          NAV.map((item) =>
+            item.children ? (
+              <li class="nav-group group relative">
+                <button
+                  type="button"
+                  aria-expanded="false"
+                  aria-controls={`nav-${item.label.toLowerCase()}`}
+                  data-active={isGroupActive(item) ? '' : undefined}
+                  class="peer inline-flex min-h-11 items-center gap-1 rounded-full px-3 font-medium whitespace-nowrap xl:px-4 text-ink hover:bg-sand data-[active]:text-clay"
+                >
+                  {item.label}
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+                    <path d="m6 9 6 6 6-6" stroke-linecap="round" stroke-linejoin="round" />
+                  </svg>
+                </button>
+                {/* pt-2 bridges the gap so the menu stays open while the pointer moves down to it. */}
+                <div
+                  id={`nav-${item.label.toLowerCase()}`}
+                  class="absolute left-0 top-full hidden pt-2 group-hover:block peer-aria-expanded:block"
+                >
+                  <ul class="min-w-44 rounded-2xl border border-line bg-paper p-2 shadow-lg">
+                    {item.children.map((child) => (
+                      <li>
+                        <a
+                          href={child.href}
+                          aria-current={isActive(child.href) ? 'page' : undefined}
+                          class="flex min-h-11 items-center rounded-xl px-3 font-medium text-ink no-underline hover:bg-sand aria-[current=page]:text-clay"
+                        >
+                          {child.label}
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </li>
+            ) : (
+              <li>
+                <a
+                  href={item.href}
+                  aria-current={isActive(item.href) ? 'page' : undefined}
+                  class="inline-flex min-h-11 items-center rounded-full px-3 font-medium whitespace-nowrap xl:px-4 text-ink no-underline hover:bg-sand aria-[current=page]:text-clay"
+                >
+                  {item.label}
+                </a>
+              </li>
+            ),
+          )
         }
         <li class="ml-2">
           <a href="/#get-the-book" class="btn btn-primary whitespace-nowrap" data-track="book_cta" data-track-label="header">Get the Book</a>
@@ -47,17 +84,36 @@ const isActive = (href: string) => (href === '/' ? path === '/' : path === href 
   <nav id="mobile-menu" aria-label="Main" class="hidden border-t border-line bg-paper lg:hidden">
     <ul class="container-site flex flex-col py-3">
       {
-        NAV.map((item) => (
-          <li>
-            <a
-              href={item.href}
-              aria-current={isActive(item.href) ? 'page' : undefined}
-              class="flex min-h-12 items-center text-lg font-medium text-ink no-underline aria-[current=page]:text-clay"
-            >
-              {item.label}
-            </a>
-          </li>
-        ))
+        NAV.map((item) =>
+          item.children ? (
+            <li>
+              <p class="flex min-h-12 items-center text-lg font-medium text-muted">{item.label}</p>
+              <ul class="ml-4 border-l border-line pl-4">
+                {item.children.map((child) => (
+                  <li>
+                    <a
+                      href={child.href}
+                      aria-current={isActive(child.href) ? 'page' : undefined}
+                      class="flex min-h-12 items-center text-lg font-medium text-ink no-underline aria-[current=page]:text-clay"
+                    >
+                      {child.label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </li>
+          ) : (
+            <li>
+              <a
+                href={item.href}
+                aria-current={isActive(item.href) ? 'page' : undefined}
+                class="flex min-h-12 items-center text-lg font-medium text-ink no-underline aria-[current=page]:text-clay"
+              >
+                {item.label}
+              </a>
+            </li>
+          ),
+        )
       }
       <li class="pt-2 pb-1">
         <a href="/#get-the-book" class="btn btn-primary w-full" data-track="book_cta" data-track-label="mobile-menu">Get the Book</a>
@@ -89,5 +145,24 @@ const isActive = (href: string) => (href === '/' ? path === '/' : path === href 
     if (e.key !== 'Escape' || !isOpen()) return;
     setOpen(false);
     toggle?.focus();
+  });
+
+  // Desktop dropdowns (e.g. Writing): open on hover via CSS, and on click/keyboard via aria-expanded.
+  document.querySelectorAll<HTMLElement>('.nav-group').forEach((group) => {
+    const button = group.querySelector('button');
+    if (!button) return;
+    const setExpanded = (open: boolean) => button.setAttribute('aria-expanded', String(open));
+    button.addEventListener('click', () => setExpanded(button.getAttribute('aria-expanded') !== 'true'));
+    group.addEventListener('focusout', (e) => {
+      if (!group.contains(e.relatedTarget as Node | null)) setExpanded(false);
+    });
+    group.addEventListener('keydown', (e) => {
+      if (e.key !== 'Escape' || button.getAttribute('aria-expanded') !== 'true') return;
+      setExpanded(false);
+      button.focus();
+    });
+    document.addEventListener('pointerdown', (e) => {
+      if (!group.contains(e.target as Node)) setExpanded(false);
+    });
   });
 </script>

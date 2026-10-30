@@ -23,6 +23,7 @@ export async function GET(context: APIContext) {
     `- [About](${abs('/about')}): Michael's story, background, and credentials`,
     `- [The Book](${abs('/book')}): About the book, who it's for, FAQ, and where to buy *${BOOK.title}*`,
     `- [Speaking](${abs('/speaking')}): Talks Michael offers and how to book him`,
+    `- [Newsletter](${abs('/newsletter')}): The Elder at the Gate, Michael's free monthly letter`,
     `- [Blog](${abs('/blog')}): Articles on trauma recovery, faith, and relationships`,
     `- [Contact](${abs('/contact')}): Get in touch with Michael`,
     '',

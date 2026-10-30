@@ -1,10 +1,28 @@
 {
   "categories": [
-    { "name": "Spiritual Reflections" },
-    { "name": "Faith & Calling" },
-    { "name": "Healing & Recovery" },
-    { "name": "Relationships" },
-    { "name": "Introduction" },
-    { "name": "Uncategorized" }
+    {
+      "name": "Spiritual Reflections"
+    },
+    {
+      "name": "Faith & Calling"
+    },
+    {
+      "name": "Healing & Recovery"
+    },
+    {
+      "name": "Relationships"
+    },
+    {
+      "name": "Introduction"
+    },
+    {
+      "name": "Parenting"
+    },
+    {
+      "name": "Communication"
+    },
+    {
+      "name": "Uncategorized"
+    }
   ]
 }

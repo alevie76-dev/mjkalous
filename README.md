@@ -95,6 +95,12 @@ For the current DNS records, see [INFRASTRUCTURE.md](INFRASTRUCTURE.md#dns-verce
 
 ## GitHub OAuth (blog editor login)
 
+The editor script is self-hosted from `public/admin/vendor/decap-cms-3.16.3.js`.
+This is the prebuilt release bundle; no runtime CDN download or additional npm
+dependencies are needed. Source, checksums, license, and update instructions are
+in `public/admin/vendor/README.md`. Verify editor login, post editing, image
+uploads, and previews after updating the bundle and before deploying.
+
 1. GitHub → **Settings → Developer settings → OAuth Apps → New OAuth App**
    - Application name: `Michael Kalous Site`
    - Homepage URL: `https://mjkalous.com`

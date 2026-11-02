@@ -9,6 +9,32 @@ import { externalLinks } from './src/lib/external-links-plugin.mjs';
 export default defineConfig({
   site: 'https://mjkalous.com',
   output: 'static',
+  // Astro hashes generated inline scripts/styles, so arbitrary injected scripts
+  // cannot execute. Admin is a static public file with its own staged policy.
+  security: {
+    csp: {
+      directives: [
+        "default-src 'self'",
+        "object-src 'none'",
+        "base-uri 'self'",
+        "img-src 'self' data: https://www.google-analytics.com https://*.google-analytics.com https://www.facebook.com",
+        "font-src 'self'",
+        "connect-src 'self' https://app.kit.com https://www.google-analytics.com https://*.google-analytics.com https://*.analytics.google.com https://www.googletagmanager.com https://www.facebook.com https://connect.facebook.net https://vitals.vercel-insights.com",
+        "frame-src https://www.youtube-nocookie.com https://www.googletagmanager.com",
+        "form-action 'self' https://app.kit.com",
+      ],
+      scriptDirective: {
+        resources: ["'self'", 'https://www.googletagmanager.com', 'https://connect.facebook.net', 'https://va.vercel-scripts.com'],
+      },
+      // React and analytics libraries can set style attributes dynamically.
+      styleDirective: {
+        resources: [
+          { resource: "'self'", kind: 'element' },
+          { resource: "'unsafe-inline'", kind: 'attribute' },
+        ],
+      },
+    },
+  },
   // Inline the (small) site CSS so it doesn't block first render on mobile.
   build: { inlineStylesheets: 'always' },
   // Match Vercel's URLs so sitemap entries do not redirect.

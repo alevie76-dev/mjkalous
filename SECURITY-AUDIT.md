@@ -2,6 +2,22 @@
 
 Scope: source at commit d64a19e, installed/locked dependencies, and passive HTTP header checks of https://mjkalous.com and /admin. Local abuse tests mocked the email service; no email was sent. No production exploitation, account-setting changes, or application fixes were performed. This review cannot establish whether a compromise has occurred.
 
+## Remediation update
+
+The original findings below describe the audit snapshot. Follow-up implementation:
+
+- Decap 3.16.3 is now vendored with checksums and license notices, and its initialization scripts are served locally.
+- GitHub scopes, editor access, and MFA changes are explicitly deferred during shared testing.
+- Compatible npm patches and a targeted typography-parser override reduced the installation audit to zero known vulnerabilities. Dependabot is configured for weekly npm checks.
+- A contact-only firewall rule was published on Vercel: five POST requests per IP per ten minutes. Automatic DDoS mitigation was already active; custom rules and managed bot protection were previously unconfigured.
+- Pending application deployment: BotID Basic verification, strict form input checks, duplicate-send protection, provider timeouts, safe JSON-LD serialization, malformed-cookie handling, and OAuth opener/source checks.
+- Pending application deployment: enforced public-page/callback CSP and baseline security directives; stricter admin CSP remains report-only until the full authenticated editor flow is checked.
+- Eight local security regression tests and a build-artifact checker cover rejection paths, serialization, callback handshake, preview isolation, and public-page CSP hashes. Email delivery is mocked.
+- Headless Chrome smoke checks passed for contact and speaking form submissions, newsletter hydration, and the self-hosted editor. Browser checks use local mock email/challenge endpoints; real authenticated publishing and production BotID verification still need a deployment smoke check.
+- Vercel OIDC tokens and system environment exposure are already enabled, satisfying BotID's hosting prerequisites.
+- Separate sending-only Resend keys restricted to the verified `mjkalous.com` domain were configured as Secrets for production and preview. Both keys were denied administrative API access. They activate on each environment's next deployment. The original credential remains available for development/admin use and rollback; its eventual retirement requires confirming other uses.
+- Vercel uses Node 24.x. The team has no spending budget configured; the alert threshold is awaiting a user choice. Other account controls, incident logs, and backup/recovery checks are not established by these code changes.
+
 ## Prioritized findings
 
 ### 1. High potential impact: broad GitHub OAuth grants

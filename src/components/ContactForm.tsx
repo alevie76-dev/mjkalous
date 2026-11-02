@@ -1,5 +1,6 @@
 import { useState, type FormEvent } from 'react';
 import { track } from '../lib/analytics';
+import '../lib/contact-protection';
 
 type Status = 'idle' | 'submitting' | 'success' | 'error';
 
@@ -20,6 +21,7 @@ export default function ContactForm() {
         body: JSON.stringify(payload),
       });
       const data = await res.json().catch(() => ({}));
+      if (res.status === 429) throw new Error('Too many messages have been submitted. Please wait ten minutes and try again, or email michael@mjkalous.com.');
       if (!res.ok) throw new Error(data.error || 'Your message could not be sent.');
       setStatus('success');
       track('generate_lead', { method: 'contact_form' });

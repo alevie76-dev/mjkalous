@@ -3,6 +3,10 @@ import { createState, siteOrigin, requestOrigin, STATE_COOKIE, STATE_MAX_AGE_MS 
 
 export default function handler(req, res) {
   res.setHeader('Cache-Control', 'no-store');
+  if (req.method !== 'GET') {
+    res.setHeader('Allow', 'GET');
+    return res.status(405).send('Method not allowed');
+  }
   // Start on the callback's host so its host-only state cookie survives the round trip.
   if (requestOrigin(req) !== siteOrigin(req)) {
     return res.redirect(302, `${siteOrigin(req)}/api/auth`);

@@ -10,6 +10,7 @@ import Popup from '../components/Popup.astro';
 import { getImage } from 'astro:assets';
 import portrait from '../assets/michael-kalous.png';
 import { AUTHOR, SITE, SOCIAL } from '../consts';
+import { safeJson } from '../lib/safe-json.mjs';
 
 interface Props {
   title?: string;
@@ -80,8 +81,8 @@ const personLd = {
     <meta property="og:locale" content={SITE.locale} />
     <meta name="twitter:card" content="summary_large_image" />
 
-    <script type="application/ld+json" set:html={JSON.stringify(personLd)} />
-    {jsonLd && <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />}
+    <script type="application/ld+json" set:html={safeJson(personLd)} />
+    {jsonLd && <script type="application/ld+json" set:html={safeJson(jsonLd)} />}
   </head>
   <body class="flex min-h-screen flex-col">
     <a

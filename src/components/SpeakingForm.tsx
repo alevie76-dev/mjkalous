@@ -1,5 +1,6 @@
 import { useState, type FormEvent } from 'react';
 import { track } from '../lib/analytics';
+import '../lib/contact-protection';
 import { SPEAKING_TOPICS } from '../consts';
 
 type Status = 'idle' | 'submitting' | 'success' | 'error';
@@ -21,6 +22,7 @@ export default function SpeakingForm() {
         body: JSON.stringify(payload),
       });
       const data = await res.json().catch(() => ({}));
+      if (res.status === 429) throw new Error('Too many requests have been submitted. Please wait ten minutes and try again, or email michael@mjkalous.com.');
       if (!res.ok) throw new Error(data.error || 'Your request could not be sent.');
       setStatus('success');
       track('generate_lead', { method: 'speaking_form' });

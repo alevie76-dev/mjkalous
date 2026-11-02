@@ -112,6 +112,17 @@ How it works: `/api/auth` redirects to GitHub with a `state` value made of a ran
 
 The editor redirects alternate domains and Vercel preview URLs to `https://mjkalous.com/admin` before login. The auth endpoint also redirects to the configured origin before setting the state cookie. Keep the GitHub OAuth App callback set to `https://mjkalous.com/api/callback` and `SITE_URL` unset or set to `https://mjkalous.com`. If changing the editor domain, update the canonical redirect in `public/admin/index.html` as well.
 
+## Security maintenance
+
+- Contact and speaking submissions use Vercel BotID **Basic** on both client and server. Keep the check levels matched. Vercel handles the challenge routes automatically; enable Vercel OIDC tokens for the deployed functions. Local development bypasses verification; Vercel deployments explicitly do not. Verification failures stop email delivery and offer the direct email address.
+- A Vercel firewall rule limits `POST /api/contact` to **5 requests per IP per 600 seconds**. This is a dashboard/CLI setting, not a `vercel.json` rule. Inspect it with `vercel firewall status`. Tune it from real traffic; shared networks may share the allowance, and regional counters are not a strict global sending cap.
+- Both forms accept JSON only, reject unexpected field types and cross-site browser submissions, and cap payload size. Email and OAuth provider calls time out after ten seconds. Resend receives a content-derived idempotency key so identical submissions are deduplicated within its 24-hour window. Use a sending-only Resend key restricted to the sending domain.
+- Production and preview have separate domain-restricted Resend sending keys stored as Vercel Secrets. Environment changes apply on the next deployment for each environment. The original development/admin credential was preserved; review whether it is still needed after rollout before revoking it. Preview form origins are limited to Vercel's configured deployment/branch hostnames and are rejected by the production endpoint.
+- Astro generates enforced CSP hashes for public pages. The callback hashes its own inline handshake. `vercel.json` also enforces object/base/frame/form restrictions. The stricter `/admin` policy is **report-only**: inspect browser-console violations during GitHub login, image uploads, editing, and preview before promoting it to an enforcing policy. There is no remote CSP report collector configured.
+- `npm run build`, `npm test`, and `npm run test:build` verify the build, request rejection and OAuth behavior, and generated CSP hashes/static editor paths. Tests mock email delivery. `npm audit` checks locked npm dependencies; it does not scan the separately vendored Decap bundle.
+- Dependabot checks npm dependencies weekly. Keep the typography parser override until the parent package uses a patched parser, and review it when upgrading typography. Review the self-hosted Decap version separately.
+- Spending budgets apply to the Vercel team, potentially including other projects. Choose a budget before configuring alerts or automatic pausing. Do not enable automatic pausing without deciding which sites may be affected.
+
 ## Handoff
 
 See [INFRASTRUCTURE.md](INFRASTRUCTURE.md#handoff-transferring-to-michael) for how to transfer the repo, Vercel project, domain, OAuth app, and analytics to Michael.

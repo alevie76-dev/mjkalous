@@ -57,6 +57,7 @@ export const SOCIAL = [
   { name: 'Instagram', href: 'https://www.instagram.com/kalousmichael' },
   { name: 'Facebook', href: 'https://www.facebook.com/michael.kalous.author' },
   { name: 'LinkedIn', href: 'https://www.linkedin.com/in/michael-kalous-39463641b/' },
+  { name: 'YouTube', href: 'https://www.youtube.com/@MJKalous' },
 ] as const;
 
 export const BOOK = {

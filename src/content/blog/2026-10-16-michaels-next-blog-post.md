@@ -16,7 +16,7 @@ excerpt: "Most everyone can identify a time, a place, an experience, or a person
   - that we are a good kid, we are loved and loveable, we have value and worth.
   We must leave behind the lies we were told and step into the truth of who we
   were meant to be. "
-draft: true
+draft: false
 ---
 My dad rammed home his belief that I would turn out to be no good and "worthless." He spoke that curse over me and my brothers in his drunken rages, driving that cursing message home with his nail-hard finger, stabbing us in the chest. My brothers must have taken in and lived out that message, because that curse came true, for them. It did not come true for me. I had something they did not. I found hope in the midst of despair. I had the desire for something more and sought and found heroes to give me a different message.  That is a very difficult thing to find when repetitive curses of a parent, or someone else with power, wears upon a child's innocent world, collapsing their house of identity, and crumbling the walls of hope to fall in a heap on the floor of their soul. "What made you different?" I am often asked. My easiest answer was always God. When asked to do a TedxTalk I wanted a more in-depth answer. That is how I developed what I call the HERO Construct. These four things helped me overcome the curses of my childhood and brought me to a place of wisdom and hope. Here is the basic outline: 
 

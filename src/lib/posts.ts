@@ -2,9 +2,9 @@ import { getCollection, type CollectionEntry } from 'astro:content';
 
 export type Post = CollectionEntry<'blog'>;
 
-/** URL slug for a post: the filename without its YYYY-MM-DD- prefix. */
+/** URL slug for a post: its `slug` field if set, else the filename without its YYYY-MM-DD- prefix. */
 export function postSlug(post: Post): string {
-  return post.id.replace(/^\d{4}-\d{2}-\d{2}-/, '');
+  return post.data.slug ?? post.id.replace(/^\d{4}-\d{2}-\d{2}-/, '');
 }
 
 export function postUrl(post: Post): string {

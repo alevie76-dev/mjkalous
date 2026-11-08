@@ -38,6 +38,12 @@ collections:
       preview: true
     fields:
       - { name: title, label: Post Title, widget: string }
+      - name: slug
+        label: URL Slug
+        widget: string
+        required: false
+        pattern: ['^[a-z0-9]+(?:-[a-z0-9]+)*$', 'Use lowercase letters, numbers, and hyphens only, e.g. exiting-the-past']
+        hint: 'The end of the post’s web address: mjkalous.com/blog/your-slug. Leave blank to use the address set when the post was created. Once a post has been shared, ask Allen before changing its slug so old links keep working.'
       - name: date
         label: Publish Date
         widget: datetime

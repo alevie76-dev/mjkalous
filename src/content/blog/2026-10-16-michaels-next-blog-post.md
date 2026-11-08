@@ -1,5 +1,6 @@
 ---
 title: Exiting the Past to Enter the Future
+slug: exiting-the-past-to-enter-the-future
 date: 2026-11-07
 categories:
   - Introduction

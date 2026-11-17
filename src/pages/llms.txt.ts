@@ -22,7 +22,7 @@ export async function GET(context: APIContext) {
     `- [Home](${abs('/')}): Introduction to Michael and his book`,
     `- [About](${abs('/about')}): Michael's story, background, and credentials`,
     `- [The Book](${abs('/book')}): About the book, who it's for, FAQ, and where to buy *${BOOK.title}*`,
-    `- [Speaking](${abs('/speaking')}): Talks Michael offers and how to book him`,
+    `- [Speaking & Events](${abs('/speaking')}): Upcoming events, past appearances, speaking topics, and booking`,
     `- [Newsletter](${abs('/newsletter')}): ${BOOK.title}, Michael's free monthly letter`,
     `- [Blog](${abs('/blog')}): Articles on trauma recovery, faith, and relationships`,
     `- [Contact](${abs('/contact')}): Get in touch with Michael`,

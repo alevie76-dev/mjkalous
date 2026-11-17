@@ -41,7 +41,7 @@ export const NAV: { href: string; label: string; children?: { href: string; labe
   { href: '/', label: 'Home' },
   { href: '/about', label: 'About' },
   { href: '/book', label: 'The Book' },
-  { href: '/speaking', label: 'Speaking' },
+  { href: '/speaking', label: 'Speaking & Events' },
   {
     href: '/blog',
     label: 'Writing',

@@ -5,6 +5,7 @@ import Newsletter from '../components/Newsletter.astro';
 import portrait from '../assets/michael-kalous.png';
 import { AUTHOR, BOOK } from '../consts';
 import VideoEmbed from '../components/VideoEmbed.astro';
+import introPoster from '../assets/video-intro.jpg';
 import tedxPoster from '../assets/video-tedx.jpg';
 
 const offers = [
@@ -78,6 +79,21 @@ const offers = [
             camping, kayaking, and spending time with our friends and family.
           </p>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="pb-16 sm:pb-24" aria-labelledby="intro-video-heading">
+    <div class="container-site max-w-4xl">
+      <h2 id="intro-video-heading" class="text-3xl font-medium sm:text-4xl">Get to know Michael and his mission in 2:30</h2>
+      <div class="mt-6">
+        <VideoEmbed
+          id="bfr9ihUogdY"
+          title="An introduction to Michael J. Kalous and his mission"
+          poster={introPoster}
+          trackLabel="intro"
+          duration="2:30"
+        />
       </div>
     </div>
   </section>

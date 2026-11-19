@@ -6,7 +6,9 @@ categories:
   - Relationships
   - Communication
 tags:
-  - Love, Respect, Boundaries
+  - Love
+  - Respect
+  - Boundaries
 heroImage: /uploads/fear-big-hole.webp
 heroImageAlt: We all see something different
 excerpt: >+

@@ -1,4 +1,5 @@
 ---
+import { getImage, type ImageMetadata } from 'astro:assets';
 import BaseLayout from './BaseLayout.astro';
 import BlogCard from '../components/BlogCard.astro';
 import Newsletter from '../components/Newsletter.astro';
@@ -15,6 +16,11 @@ const { title, date, categories, tags, heroImage, heroImageAlt } = post.data;
 const description = postExcerpt(post);
 const url = new URL(postUrl(post), Astro.site).toString();
 const isoDate = date.toISOString().slice(0, 10);
+const uploads = import.meta.glob<ImageMetadata>('/public/uploads/**/*.{jpg,jpeg,png,webp,avif,gif,JPG,JPEG,PNG,WEBP,AVIF,GIF}', { import: 'default' });
+const loadHero = heroImage ? uploads[`/public${heroImage}`] : undefined;
+const shareImage = loadHero
+  ? await getImage({ src: await loadHero(), width: 1200, height: 900, fit: 'contain', background: '#fbf7f0', format: 'jpg' })
+  : undefined;
 
 const jsonLd = {
   '@context': 'https://schema.org',
@@ -39,7 +45,15 @@ const share = [
 ];
 ---
 
-<BaseLayout title={title} description={description} image={heroImage} type="article" jsonLd={jsonLd}>
+<BaseLayout
+  title={title}
+  description={description}
+  image={shareImage?.src ?? heroImage}
+  imageType={shareImage && 'image/jpeg'}
+  imageAlt={heroImageAlt}
+  type="article"
+  jsonLd={jsonLd}
+>
   <article>
     <header class="bg-gradient-to-b from-sky/60 to-paper">
       <div class="container-site max-w-3xl py-14 sm:py-20">

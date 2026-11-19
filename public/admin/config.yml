@@ -92,7 +92,7 @@ collections:
         label: Post Content
         widget: markdown
         modes: [raw]
-        hint: 'Paste your draft here. Leave one blank line between paragraphs. Use Markdown for formatting and check the preview before publishing.'
+        hint: 'Paste your draft here. A single line break starts a new line. Leave one blank line between paragraphs. Use Markdown for formatting and check the preview before publishing.'
 
   - name: settings
     label: Settings

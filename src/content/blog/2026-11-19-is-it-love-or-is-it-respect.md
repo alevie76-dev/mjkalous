@@ -1,5 +1,5 @@
 ---
-title: Is it Love or Is it Respect
+title: Is It Love or Is It Respect?
 slug: love-vs-respect
 date: 2026-11-19
 categories:
@@ -95,7 +95,7 @@ I don't claim to have all the answers, nor do I wish to damage relationships thr
 
 That, too, is an expression of love.
 
-So, I leave you with a question:
+So, I leave you with two questions:
 
 **Can we continue to love someone whose choices we do not respect? And might that love create an opportunity for respect to grow again?**
 

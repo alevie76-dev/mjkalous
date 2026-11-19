@@ -5,7 +5,8 @@ date: 2026-11-19
 categories:
   - Relationships
   - Communication
-tags: []
+tags:
+  - Love, Respect, Boundaries
 heroImage: /uploads/fear-big-hole.webp
 heroImageAlt: We all see something different
 excerpt: >+

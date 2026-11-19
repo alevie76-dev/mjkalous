@@ -64,7 +64,14 @@ collections:
         min: 1
         options_length: 50
         hint: 'Need a new category? Add it under Settings → Categories, then come back to this post.'
-      - { name: tags, label: Tags, widget: list, required: false, hint: 'Separate tags with commas.' }
+      - name: tags
+        label: Tags
+        label_singular: Tag
+        widget: list
+        required: false
+        collapsed: false
+        hint: 'Click Add Tag for each tag. Enter one tag per box.'
+        field: { name: tag, label: Tag, widget: string }
       - { name: heroImage, label: Hero Image, widget: image, required: false, choose_url: false }
       - name: heroImageAlt
         label: Hero Image Description
@@ -81,7 +88,11 @@ collections:
         widget: boolean
         default: false
         required: false
-      - { name: body, label: Post Content, widget: markdown }
+      - name: body
+        label: Post Content
+        widget: markdown
+        modes: [raw]
+        hint: 'Paste your draft here. Leave one blank line between paragraphs. Use Markdown for formatting and check the preview before publishing.'
 
   - name: settings
     label: Settings

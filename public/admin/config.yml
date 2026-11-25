@@ -132,6 +132,12 @@ collections:
         widget: text
         required: false
         hint: 'One or two sentences shown in the Past letters list and in search results.'
+      - { name: image, label: Thumbnail, widget: image, required: false, choose_url: false, hint: 'Shown in the Past letters list, at the top of the letter, and when it is shared on Facebook.' }
+      - name: imageAlt
+        label: Thumbnail Description
+        widget: string
+        required: false
+        hint: 'Describe the picture for people using screen readers.'
       - name: draft
         label: Draft (hide from the site)
         widget: boolean

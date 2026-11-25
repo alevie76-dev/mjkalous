@@ -35,6 +35,9 @@ const newsletter = defineCollection({
     // The day the letter went out by email.
     date: z.coerce.date(),
     excerpt: z.string().optional(),
+    // Thumbnail for the Past letters list, the top of the page and social shares. A path under /uploads.
+    image: z.string().optional(),
+    imageAlt: z.string().optional(),
     // Keep true until the email has gone out, so web readers never see it first.
     draft: z.boolean().default(false),
   }),

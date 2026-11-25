@@ -75,12 +75,23 @@ const whatYouGet = [
           <ol class="mt-10 divide-y divide-line border-y border-line">
             {editions.map((edition) => (
               <li class="py-6">
-                <a href={editionUrl(edition)} class="group block no-underline">
-                  <p class="text-sm text-muted">
-                    <time datetime={edition.data.date.toISOString().slice(0, 10)}>{formatDate(edition.data.date)}</time>
-                  </p>
-                  <h3 class="mt-1 font-serif text-2xl group-hover:underline">{edition.data.title}</h3>
-                  <p class="mt-2 text-muted">{editionExcerpt(edition)}</p>
+                <a href={editionUrl(edition)} class="group flex flex-col gap-5 no-underline sm:flex-row sm:items-center">
+                  {edition.data.image && (
+                    <img
+                      src={edition.data.image}
+                      alt=""
+                      loading="lazy"
+                      decoding="async"
+                      class="aspect-[16/10] w-full shrink-0 rounded-xl object-cover sm:w-48"
+                    />
+                  )}
+                  <div class="min-w-0">
+                    <p class="text-sm text-muted">
+                      <time datetime={edition.data.date.toISOString().slice(0, 10)}>{formatDate(edition.data.date)}</time>
+                    </p>
+                    <h3 class="mt-1 font-serif text-2xl group-hover:underline">{edition.data.title}</h3>
+                    <p class="mt-2 text-muted">{editionExcerpt(edition)}</p>
+                  </div>
                 </a>
               </li>
             ))}

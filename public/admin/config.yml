@@ -94,6 +94,56 @@ collections:
         modes: [raw]
         hint: 'Paste your draft here. A single line break starts a new line. Leave one blank line between paragraphs. Use Markdown for formatting and check the preview before publishing.'
 
+  - name: newsletter
+    label: Newsletter Archive
+    label_singular: Newsletter Edition
+    folder: src/content/newsletter
+    create: true
+    delete: true
+    format: yaml-frontmatter
+    frontmatter_delimiter: '---'
+    extension: md
+    slug: '{{year}}-{{month}}-{{day}}-{{slug}}'
+    preview_path: 'newsletter/{{slug}}'
+    summary: '{{date}} — {{title}}'
+    sortable_fields: ['date', 'title']
+    view_filters:
+      - { label: Drafts, field: draft, pattern: true }
+    editor:
+      preview: true
+    fields:
+      - { name: title, label: Letter Title, widget: string, hint: 'Usually the email subject line, shortened if needed.' }
+      - name: slug
+        label: URL Slug
+        widget: string
+        required: false
+        pattern: ['^[a-z0-9]+(?:-[a-z0-9]+)*$', 'Use lowercase letters, numbers, and hyphens only, e.g. december-2026']
+        hint: 'The end of the web address: mjkalous.com/newsletter/your-slug. Use the month and year, e.g. december-2026.'
+      - name: date
+        label: Sent Date
+        widget: datetime
+        format: YYYY-MM-DD
+        date_format: YYYY-MM-DD
+        time_format: false
+        picker_utc: true
+        hint: 'The day the letter went out by email.'
+      - name: excerpt
+        label: Summary
+        widget: text
+        required: false
+        hint: 'One or two sentences shown in the Past letters list and in search results.'
+      - name: draft
+        label: Draft (hide from the site)
+        widget: boolean
+        default: true
+        required: false
+        hint: 'Leave this on until the email has gone out, then turn it off to publish.'
+      - name: body
+        label: Letter
+        widget: markdown
+        modes: [raw]
+        hint: 'Paste the letter here. Leave out the greeting with the subscriber''s name and the unsubscribe footer. Use relative links for Michael''s own pages, e.g. /blog/love-vs-respect.'
+
   - name: settings
     label: Settings
     delete: false

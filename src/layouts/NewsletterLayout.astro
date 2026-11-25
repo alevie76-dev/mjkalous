@@ -12,7 +12,7 @@ interface Props {
 }
 
 const { edition, newer, older } = Astro.props;
-const { title, date } = edition.data;
+const { title, date, image, imageAlt } = edition.data;
 const description = editionExcerpt(edition);
 const url = new URL(editionUrl(edition), Astro.site).toString();
 const isoDate = date.toISOString().slice(0, 10);
@@ -28,10 +28,18 @@ const jsonLd = {
   isPartOf: { '@type': 'Periodical', name: `${BOOK.title} (monthly letter)`, url: new URL('/newsletter', Astro.site).toString() },
   author: { '@id': `${SITE.url}#person` },
   publisher: { '@id': `${SITE.url}#person` },
+  ...(image && { image: new URL(image, Astro.site).toString() }),
 };
 ---
 
-<BaseLayout title={`${title} | Monthly Letter`} description={description} type="article" jsonLd={jsonLd}>
+<BaseLayout
+  title={`${title} | Monthly Letter`}
+  description={description}
+  image={image}
+  imageAlt={imageAlt}
+  type="article"
+  jsonLd={jsonLd}
+>
   <article>
     <header class="bg-gradient-to-b from-sky/60 to-paper">
       <div class="container-site max-w-3xl py-14 sm:py-20">
@@ -41,8 +49,22 @@ const jsonLd = {
       </div>
     </header>
 
+    {
+      image && (
+        <div class="container-site max-w-4xl">
+          <img
+            src={image}
+            alt={imageAlt ?? ''}
+            class="max-h-[460px] w-full rounded-2xl object-cover shadow-md"
+            fetchpriority="high"
+            decoding="async"
+          />
+        </div>
+      )
+    }
+
     <div class="container-site max-w-3xl py-12">
-      <div class="prose prose-lg max-w-none font-serif text-[1.3rem] leading-relaxed prose-p:whitespace-pre-line prose-headings:font-serif prose-a:text-clay prose-blockquote:border-sage [&_blockquote_p]:before:content-none [&_blockquote_p]:after:content-none">
+      <div class="prose prose-lg max-w-none font-serif text-[1.3rem] leading-relaxed prose-p:whitespace-pre-line prose-headings:font-serif prose-a:text-clay prose-blockquote:border-sage prose-img:max-h-72 prose-img:w-auto prose-img:rounded-xl prose-img:shadow-sm [&_blockquote_p]:before:content-none [&_blockquote_p]:after:content-none">
         <slot />
       </div>
 

@@ -1,0 +1,21 @@
+---
+import type { GetStaticPaths } from 'astro';
+import { render } from 'astro:content';
+import NewsletterLayout from '../../layouts/NewsletterLayout.astro';
+import { getEditions, editionSlug } from '../../lib/newsletters';
+
+export const getStaticPaths = (async () => {
+  const editions = await getEditions(); // newest first
+  return editions.map((edition, i) => ({
+    params: { slug: editionSlug(edition) },
+    props: { edition, newer: editions[i - 1], older: editions[i + 1] },
+  }));
+}) satisfies GetStaticPaths;
+
+const { edition, newer, older } = Astro.props;
+const { Content } = await render(edition);
+---
+
+<NewsletterLayout edition={edition} newer={newer} older={older}>
+  <Content />
+</NewsletterLayout>

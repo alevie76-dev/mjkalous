@@ -1,0 +1,79 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import NewsletterForm from '../components/NewsletterForm.tsx';
+import { SITE, BOOK } from '../consts';
+import { formatDate } from '../lib/posts';
+import { editionExcerpt, editionUrl, type Edition } from '../lib/newsletters';
+
+interface Props {
+  edition: Edition;
+  newer?: Edition;
+  older?: Edition;
+}
+
+const { edition, newer, older } = Astro.props;
+const { title, date } = edition.data;
+const description = editionExcerpt(edition);
+const url = new URL(editionUrl(edition), Astro.site).toString();
+const isoDate = date.toISOString().slice(0, 10);
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: title,
+  description,
+  datePublished: isoDate,
+  url,
+  mainEntityOfPage: url,
+  isPartOf: { '@type': 'Periodical', name: `${BOOK.title} (monthly letter)`, url: new URL('/newsletter', Astro.site).toString() },
+  author: { '@id': `${SITE.url}#person` },
+  publisher: { '@id': `${SITE.url}#person` },
+};
+---
+
+<BaseLayout title={`${title} | Monthly Letter`} description={description} type="article" jsonLd={jsonLd}>
+  <article>
+    <header class="bg-gradient-to-b from-sky/60 to-paper">
+      <div class="container-site max-w-3xl py-14 sm:py-20">
+        <a href="/newsletter#past-letters" class="text-sm font-semibold no-underline hover:underline">← All letters</a>
+        <p class="eyebrow mt-6">Monthly Letter · <time datetime={isoDate}>{formatDate(date)}</time></p>
+        <h1 class="mt-3 text-5xl font-medium sm:text-6xl">{title}</h1>
+      </div>
+    </header>
+
+    <div class="container-site max-w-3xl py-12">
+      <div class="prose prose-lg max-w-none font-serif text-[1.3rem] leading-relaxed prose-p:whitespace-pre-line prose-headings:font-serif prose-a:text-clay prose-blockquote:border-sage [&_blockquote_p]:before:content-none [&_blockquote_p]:after:content-none">
+        <slot />
+      </div>
+
+      <aside id="join" class="mt-12 scroll-mt-24 rounded-2xl bg-sand p-6 sm:p-8">
+        <p class="font-serif text-2xl">Get next month's letter by email</p>
+        <p class="mt-2 text-muted">One letter a month from Michael. Free, and you can unsubscribe anytime.</p>
+        <div class="mt-5">
+          <NewsletterForm client:visible placement="newsletter-edition" />
+        </div>
+      </aside>
+
+      {
+        (newer || older) && (
+          <nav class="mt-10 grid gap-4 border-t border-line pt-6 sm:grid-cols-2" aria-label="More letters">
+            {older ? (
+              <a href={editionUrl(older)} class="no-underline hover:underline">
+                <span class="block text-sm text-muted">← Earlier letter</span>
+                <span class="font-serif text-xl">{older.data.title}</span>
+              </a>
+            ) : (
+              <span />
+            )}
+            {newer && (
+              <a href={editionUrl(newer)} class="no-underline hover:underline sm:text-right">
+                <span class="block text-sm text-muted">Later letter →</span>
+                <span class="font-serif text-xl">{newer.data.title}</span>
+              </a>
+            )}
+          </nav>
+        )
+      }
+    </div>
+  </article>
+</BaseLayout>
